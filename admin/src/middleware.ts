@@ -53,5 +53,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((tk|ru|en))/admin/:path*", "/api/:path*", "/admin"],
+  matcher: ["/tk/admin/:path*", "/ru/admin/:path*", "/en/admin/:path*", "/api/:path*", "/admin"],
 };
