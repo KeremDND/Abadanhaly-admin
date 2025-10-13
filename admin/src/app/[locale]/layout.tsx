@@ -9,8 +9,8 @@ export const metadata: Metadata = {
   description: "Admin Dashboard",
 };
 
-export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: { locale: string } }) {
-  const { locale } = params;
+export default async function LocaleLayout({ children, params }: { children: React.ReactNode; params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
   if (!locales.includes(locale as any)) notFound();
   const messages = (await import(`@/i18n/messages/${locale}.json`)).default;
   return (
