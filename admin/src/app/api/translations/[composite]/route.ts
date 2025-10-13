@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import type { NextRequest } from "next/server";
 
-export async function PATCH(req: Request, { params: { composite } }: { params: { composite: string } }) {
+export async function PATCH(req: NextRequest, ctx: { params: Promise<{ composite: string }> }) {
+  const { composite } = await ctx.params;
   const { page, section, key, locale, value } = await req.json();
   const [pg, sc, ky] = composite.includes('.') ? composite.split('.') : [page, section, key];
   
