@@ -32,7 +32,7 @@ export default function SocialShowcase() {
 
   const loadSocialData = async () => {
     try {
-      const response = await fetch('/data/social.json');
+      const response = await fetch(`${import.meta.env.BASE_URL}data/social.json`);
       const data = await response.json();
       
       // Transform videos to posts (remove mp4 property)

@@ -31,10 +31,10 @@ export function useCarpetManifest() {
         setLoading(true);
         setError(null);
         
-        console.log('Loading carpet manifest from /data/carpets.json...');
+        console.log('Loading carpet manifest from data/carpets.json...');
         
         // Load the actual carpet manifest data
-        const response = await fetch('/data/carpets.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/carpets.json`);
         console.log('Response status:', response.status);
         console.log('Response ok:', response.ok);
         
@@ -53,8 +53,8 @@ export function useCarpetManifest() {
         
         // Fallback: try to load from the root data directory
         try {
-          console.log('Trying fallback path: /data/carpets.json');
-          const fallbackResponse = await fetch('/data/carpets.json');
+          console.log('Trying fallback path with BASE_URL');
+          const fallbackResponse = await fetch(`${import.meta.env.BASE_URL}data/carpets.json`);
           if (fallbackResponse.ok) {
             const fallbackData = await fallbackResponse.json();
             console.log('Fallback data loaded successfully. Count:', fallbackData.length);
