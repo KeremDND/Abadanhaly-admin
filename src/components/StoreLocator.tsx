@@ -50,23 +50,6 @@ export default function StoreLocator() {
       specialties: ["Premium Collection", "Traditional Designs", "Custom Sizing"]
     },
     {
-      id: 2,
-      name: "Gurtly",
-      address: "Central district, Ashgabat, Turkmenistan",
-      phone: "+993 12 345-679",
-      hours: {
-        weekdays: "9:00 - 18:00",
-        saturday: "9:00 - 17:00",
-        sunday: "10:00 - 16:00"
-      },
-      coordinates: { lat: 37.9755, lng: 58.3794 },
-      services: ["Product Display", "Size Consultation", "Delivery Service", "Maintenance Support"],
-      rating: 4.7,
-      reviews: 189,
-      image: "public/IMG_8794.JPG?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      specialties: ["Modern Collection", "Quick Service", "Urban Designs"]
-    },
-    {
       id: 3,
       name: "Ceper Haly",
       address: "Central district, Ashgabat, Turkmenistan",
@@ -82,24 +65,8 @@ export default function StoreLocator() {
       reviews: 189,
       image: "public/Screenshot 2025-08-28 at 12.07.03.png?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
       specialties: ["Modern Collection", "Quick Service", "Urban Designs"]
-    },
-    {
-      id: 4,
-      name: "Abadan Haly Dukany",
-      address: "Berkararlyk district, Ashgabat, Turkmenistan",
-      phone: "+993 12 345-680",
-      hours: {
-        weekdays: "9:00 - 18:00",
-        saturday: "9:00 - 17:00",
-        sunday: "Closed"
-      },
-      coordinates: { lat: 37.9200, lng: 58.3500 },
-      services: ["Local Collection", "Express Service", "Repair & Cleaning", "Home Consultation"],
-      rating: 4.8,
-      reviews: 156,
-      image: "public/APC_0279.JPG?auto=compress&cs=tinysrgb&w=800&h=400&fit=crop",
-      specialties: ["Classic Collection", "Family Service", "Local Expertise"]
     }
+    
   ];
 
   // Calculate distance between two coordinates using Haversine formula

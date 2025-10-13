@@ -48,7 +48,7 @@ export default function Gallery() {
     const testDataLoading = async () => {
       try {
         console.log('Testing data loading manually...');
-        const response = await fetch('/data/carpets.json');
+        const response = await fetch(`${import.meta.env.BASE_URL}data/carpets.json`);
         console.log('Manual test response:', response.status, response.ok);
         if (response.ok) {
           const data = await response.json();

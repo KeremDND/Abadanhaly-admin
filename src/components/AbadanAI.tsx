@@ -59,7 +59,7 @@ function score(item: Item, color: string|null, size: {widthCm:number;heightCm:nu
 
 async function search(query: string){
   try {
-    const response = await fetch('/data/carpets.json');
+    const response = await fetch(`${import.meta.env.BASE_URL}data/carpets.json`);
     const manifest = await response.json();
     const items = manifest as Item[];
     
