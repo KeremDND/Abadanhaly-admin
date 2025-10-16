@@ -1,0 +1,14 @@
+{
+  "buildCommand": "pnpm install && pnpm exec prisma generate && pnpm build",
+  "outputDirectory": ".next",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "env": {
+    "DATABASE_URL": "@database_url",
+    "NEXTAUTH_URL": "@nextauth_url", 
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "NEXT_PUBLIC_SITE_URL": "@public_site_url",
+    "ADMIN_EMAIL": "@admin_email",
+    "ADMIN_PASSWORD": "@admin_password"
+  }
+}
