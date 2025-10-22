@@ -13,7 +13,10 @@ export function middleware(req: NextRequest) {
   const token = req.cookies.get(COOKIE)?.value;
   if (!token) {
     if (url.pathname.startsWith('/api/admin')) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    url.pathname = '/console'; // redirect to lock screen
+    // Allow access to the console login page
+    if (url.pathname === '/console') return NextResponse.next();
+    // Redirect other console routes to login
+    url.pathname = '/console';
     return NextResponse.redirect(url);
   }
   try {
@@ -21,6 +24,9 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   } catch {
     if (url.pathname.startsWith('/api/admin')) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    // Allow access to the console login page
+    if (url.pathname === '/console') return NextResponse.next();
+    // Redirect other console routes to login
     url.pathname = '/console';
     return NextResponse.redirect(url);
   }
