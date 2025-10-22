@@ -52,6 +52,6 @@ Users:
 - Unit: `pnpm exec vitest`
 - E2E: `pnpm exec playwright test` (requires server running)
 
-## Deploy (Vercel)
+## Deploy
 - Set envs: DATABASE_URL (Postgres), NEXTAUTH_SECRET, NEXTAUTH_URL, DEFAULT_LOCALE, SUPPORTED_LOCALES, STORAGE_PROVIDER, and optional S3/Blob values.
 - Build command: `pnpm install && pnpm run build`
