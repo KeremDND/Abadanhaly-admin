@@ -10,7 +10,7 @@ async function verify(formData: FormData) {
   const key  = formData.get('keyword')?.toString() || '';
 
   // Simple in-cookie rate limit (swap to KV/Upstash if you prefer)
-  const c = cookies();
+  const c = await cookies();
   const raw = c.get(KEY)?.value;
   const attempts = raw ? Number(raw) : 0;
   if (attempts >= 5) return { ok:false, msg:'Too many attempts. Try later.' };
@@ -22,13 +22,13 @@ async function verify(formData: FormData) {
   }
 
   // success
-  setAdminSession();
+  await setAdminSession();
   c.delete(KEY);
   redirect('/console/dashboard');
 }
 
 export default async function ConsolePage() {
-  if (isAdmin()) redirect('/console/dashboard');
+  if (await isAdmin()) redirect('/console/dashboard');
 
   return (
     <div className="min-h-screen grid place-items-center bg-neutral-50">
