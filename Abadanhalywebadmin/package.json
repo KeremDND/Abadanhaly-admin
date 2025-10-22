@@ -11,6 +11,8 @@
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
     "@prisma/client": "6.17.1",
+    "@types/jsonwebtoken": "9.0.10",
+    "jsonwebtoken": "9.0.2",
     "next": "15.5.5",
     "next-auth": "4.24.11",
     "react": "19.1.0",
