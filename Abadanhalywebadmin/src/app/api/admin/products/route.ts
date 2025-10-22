@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
   const product = await db.product.create({ data });
   revalidateTag("products");
-  revalidatePath("/gallery");
+  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
   return NextResponse.json(product, { status: 201 });
 }
 

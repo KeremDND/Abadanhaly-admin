@@ -56,8 +56,7 @@ export async function POST(req: NextRequest) {
 
   const store = await db.store.create({ data });
   revalidateTag("stores");
-  revalidatePath("/");
-  revalidatePath("/stores");
+  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
   return NextResponse.json(store, { status: 201 });
 }
 

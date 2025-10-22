@@ -1,6 +1,6 @@
 import { db } from "@/server/db";
 import { NextRequest, NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidateTag, revalidatePath } from "next/cache";
 
 export async function GET() {
   const s = await db.setting.findUnique({ where: { id: 1 } });
@@ -21,6 +21,7 @@ export async function PATCH(req: NextRequest) {
     create: { id: 1, brandName: updateData.brandName || "Abadan Haly", primaryHex: updateData.primaryHex || "#0B6A43", arEnabled: !!updateData.arEnabled },
   });
   revalidateTag("settings");
+  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
   return NextResponse.json(s);
 }
 

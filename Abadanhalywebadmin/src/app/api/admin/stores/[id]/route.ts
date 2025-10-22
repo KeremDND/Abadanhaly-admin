@@ -23,7 +23,7 @@ export async function PATCH(
     data: body,
   });
   revalidateTag("stores");
-  ["/", "/stores"].forEach((p) => revalidatePath(p));
+  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
   return NextResponse.json(store);
 }
 
@@ -34,7 +34,7 @@ export async function DELETE(
   const { id } = await params;
   await db.store.delete({ where: { id } });
   revalidateTag("stores");
-  ["/", "/stores"].forEach((p) => revalidatePath(p));
+  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
   return NextResponse.json({ ok: true });
 }
 
