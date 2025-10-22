@@ -35,8 +35,6 @@ dist/
 .env.test.local
 .env.production.local
 
-# Vercel
-.vercel
 
 # Large image files (keep source images, exclude optimized)
 # public/cdn/
