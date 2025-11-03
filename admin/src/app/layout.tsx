@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import AuthSessionProvider from "@/components/session-provider";
 
 export const metadata: Metadata = {
   title: "Abadan Haly Admin",
@@ -11,9 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="tk">
       <body>
-        <AuthSessionProvider>
-          {children}
-        </AuthSessionProvider>
+        {children}
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import Backend from 'i18next-http-backend';
 
 // Supported locales
-export const SUPPORTED_LOCALES = ['tk', 'ru', 'en', 'de'] as const;
+export const SUPPORTED_LOCALES = ['tk', 'ru', 'en'] as const;
 export type SupportedLocale = typeof SUPPORTED_LOCALES[number];
 
 // Default locale
@@ -34,9 +34,6 @@ const getInitialLanguage = (): SupportedLocale => {
   }
   if (browserLang === 'en' && SUPPORTED_LOCALES.includes('en')) {
     return 'en';
-  }
-  if (browserLang === 'de' && SUPPORTED_LOCALES.includes('de')) {
-    return 'de';
   }
 
   // Default to Turkmen

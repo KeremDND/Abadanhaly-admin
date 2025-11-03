@@ -1,0 +1,5 @@
+{
+  "summary": "Started both the main website server (Vite) and the admin panel server (Next.js). The main website is running on port 5173 using npm, and the admin panel is running on port 3000. Both servers are running in the background and are accessible via localhost.",
+  "current_status": "Both development servers are running successfully. The website is accessible at http://localhost:5173 and the admin panel is accessible at http://localhost:3000."
+}
+

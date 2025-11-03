@@ -1,0 +1,4 @@
+{
+  "summary": "Verified admin app is already built with Products, Translations and Publish tabs, secure cookie middleware and auto-revalidation endpoints. Root redirects to locale (/tk). To access, use /tk/admin or /tk/admin-login. Server is running via next dev on port 3000.",
+  "current_status": "Admin is up. If the root / is blank, navigate to /tk/admin-login then /tk/admin. Auto-publish is wired through /api/admin/revalidate and products/translations routes trigger revalidatePath."
+}

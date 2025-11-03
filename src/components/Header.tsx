@@ -48,8 +48,8 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                 onClick={() => handleNavigation(item.page)}
                 className={`px-5 py-2 rounded-full font-medium text-sm transition-all duration-180 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 ${
                   currentPage === item.page
-                    ? 'text-emerald-800 bg-white/50 shadow-sm'
-                    : 'text-gray-700 hover:text-emerald-800 hover:bg-white/30'
+                    ? 'text-emerald-800 bg-white/4 backdrop-blur-md shadow-sm'
+                    : 'text-gray-900 hover:text-emerald-800 hover:bg-white/4 backdrop-blur-md'
                 }`}
                 aria-current={currentPage === item.page ? 'page' : undefined}
               >
@@ -65,7 +65,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-xl text-gray-700 hover:text-emerald-800 hover:bg-white/30 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+              className="lg:hidden p-2 rounded-xl text-gray-900 hover:text-emerald-800 hover:bg-white/4 backdrop-blur-md transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
               aria-expanded={isMenuOpen}
               aria-label="Toggle navigation menu"
             >
@@ -86,8 +86,8 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
                   onClick={() => handleNavigation(item.page)}
                   className={`block w-full text-left px-4 py-3 rounded-lg font-medium text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 ${
                     currentPage === item.page
-                      ? 'text-emerald-800 bg-white/40'
-                      : 'text-gray-700 hover:text-emerald-800 hover:bg-white/30'
+                      ? 'text-emerald-800 bg-white/4 backdrop-blur-md'
+                      : 'text-gray-900 hover:text-emerald-800 hover:bg-white/4 backdrop-blur-md'
                   }`}
                 >
                   {item.label}

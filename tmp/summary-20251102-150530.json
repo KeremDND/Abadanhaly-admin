@@ -1,0 +1,4 @@
+{
+  "summary": "Fixed redirect loop by moving login page from /admin/login to /admin-login (outside the /admin layout). Updated middleware to allow /admin-login without auth. Updated all references to use /admin-login. Server should now work without redirect loops. Login page is now accessible at /admin-login.",
+  "current_status": "Fixed redirect loop issue. Login page moved to /admin-login to bypass /admin/layout.tsx auth check. Middleware updated. All route references updated. Server running - login should now be accessible at /admin-login without loops."
+}

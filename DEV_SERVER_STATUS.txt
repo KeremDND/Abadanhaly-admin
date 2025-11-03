@@ -1,0 +1,24 @@
+🚨 Development Server Status
+
+Issue: http://localhost:5173 is not responding
+
+Root Cause:
+- Node.js is NOT installed
+- Development server cannot run without Node.js
+- Port 5173 is available but server isn't running
+
+SOLUTION: Install Node.js
+
+Quick Steps:
+1. Visit: https://nodejs.org/
+2. Download LTS version
+3. Install Node.js
+4. Open new terminal
+5. Run: npm install -g pnpm
+6. Run: cd /Users/keremjumalyyev/Desktop/project
+7. Run: ./scripts/setup-all-dependencies.sh
+8. Run: pnpm dev
+
+Then open: http://localhost:5173
+
+See FIX_DEV_SERVER.md for complete guide

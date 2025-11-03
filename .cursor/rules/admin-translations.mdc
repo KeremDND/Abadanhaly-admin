@@ -1,0 +1,243 @@
+---
+description: Admin Translations Page - Professional translation management system for multilingual website content
+globs: admin/**/*.tsx,admin/**/*.ts,app/api/translations/**/*.ts,lib/i18n.ts,content/i18n/**/*.json,content/translation-keys.ts
+---
+
+# Admin Translations Page
+
+## Overview
+Create a professional Translations management page inside the existing `/admin` (Next.js App Router + TypeScript + Tailwind) for managing all website text content across three locales: English (default), Turkmen (tk), and Russian (ru). Remove all German language remnants.
+
+## Tech Stack
+- Next.js 14 App Router, TypeScript, Tailwind CSS
+- Prisma with PostgreSQL (SQLite in dev)
+- Caching: `revalidatePath` + `revalidateTag('i18n')` on publish
+- Authentication: Existing admin session required for all routes
+
+## Data Model (Prisma)
+
+### Translation Model
+```prisma
+model Translation {
+  id        String   @id @default(cuid())
+  page      String   // "layout","home","gallery","about","collaboration","stores","contact"
+  section   String   // "header","hero","services","filters","cards","footer"
+  key       String   // machine key, unique within page+section
+  en        String   @default("")
+  tk        String   @default("")
+  ru        String   @default("")
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  @@unique([page, section, key])
+}
+```
+
+### Audit Log Model
+```prisma
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String
+  action    String   // UPDATE_TRANSLATIONS, CREATE_MISSING_KEYS, IMPORT, EXPORT
+  target    String   // page/section or keys count
+  diff      Json?
+  createdAt DateTime @default(now())
+}
+```
+
+## API Routes Structure
+
+### Core Translation Routes
+- `GET /api/translations` - Paginated search with filters
+- `PUT /api/translations` - Bulk upsert with audit logging
+- `POST /api/translations/create-missing` - Create missing keys from registry
+- `POST /api/translations/import` - Import JSON/CSV data
+- `GET /api/translations/export` - Export translations
+- `POST /api/translations/sync-json` - Generate locale files and revalidate
+
+### Query Parameters
+- `query` - Fuzzy search over key + values
+- `page` - Filter by page name
+- `section` - Filter by section name
+- `limit` - Pagination limit
+- `offset` - Pagination offset
+
+## Frontend UI Design
+
+### Layout Structure
+```
+┌─────────────────────────────────────────────────────────┐
+│ Header: "Translations" | Import | Export | Create | Publish │
+├─────────────────────────────────────────────────────────┤
+│ Controls: [Page ▼] [Section ▼] [Search] [Show Missing] │
+│ Stats: Total: 120 | Missing TK: 5 | Missing RU: 3      │
+├─────────────────────────────────────────────────────────┤
+│ Left Panel: Page Navigator    │ Main: Virtualized Table │
+│ • layout (12)                 │ Key | EN | TK | RU | Updated │
+│   - header (8)                │ nav.home | Home | ... │
+│   - footer (4)                │ nav.gallery | Gallery │
+│ • home (45)                   │ ...                    │
+│   - hero (15)                 │                       │
+│   - services (20)             │                       │
+│   - stores (10)               │                       │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Key Features
+- **Inline Editing**: Each cell is a `<textarea>` with auto-resize
+- **Keyboard Shortcuts**: Cmd/Ctrl+S to save, arrows to navigate
+- **Virtualization**: Handle large datasets efficiently
+- **Real-time Search**: Debounced search with fuzzy matching
+- **Bulk Operations**: Select multiple rows for batch operations
+- **Context Preview**: Hover to see page/section context
+
+### Visual Indicators
+- **Empty Values**: Yellow background
+- **Placeholder Mismatches**: Red background
+- **Length Indicators**: Chips showing short/ok/long
+- **Missing Translations**: Clear visual markers
+
+## Translation Keys Registry
+
+Create `content/translation-keys.ts` with comprehensive key mapping:
+
+```typescript
+export const TRANSLATION_KEYS = [
+  // Layout
+  { page: 'layout', section: 'header', key: 'brand', en: 'Abadan Haly' },
+  { page: 'layout', section: 'header', key: 'nav.home', en: 'Home' },
+  { page: 'layout', section: 'header', key: 'nav.gallery', en: 'Gallery' },
+  { page: 'layout', section: 'header', key: 'nav.about', en: 'About' },
+  { page: 'layout', section: 'header', key: 'nav.collaboration', en: 'Collaboration' },
+  { page: 'layout', section: 'header', key: 'lang.en', en: 'English' },
+  { page: 'layout', section: 'header', key: 'lang.tk', en: 'Turkmen' },
+  { page: 'layout', section: 'header', key: 'lang.ru', en: 'Russian' },
+  
+  // Footer
+  { page: 'layout', section: 'footer', key: 'address', en: 'Address' },
+  { page: 'layout', section: 'footer', key: 'phone', en: 'Phone' },
+  { page: 'layout', section: 'footer', key: 'email', en: 'Email' },
+  { page: 'layout', section: 'footer', key: 'copyright', en: '© 2025 Abadan Haly. All rights reserved.' },
+  
+  // Home Page
+  { page: 'home', section: 'hero', key: 'title', en: 'Premium Turkmen Carpets' },
+  { page: 'home', section: 'hero', key: 'subtitle', en: 'Traditional craftsmanship meets modern design' },
+  { page: 'home', section: 'hero', key: 'ctaPrimary', en: 'View Gallery' },
+  { page: 'home', section: 'hero', key: 'ctaSecondary', en: 'Learn More' },
+  
+  // Services
+  { page: 'home', section: 'services', key: 'measuring.title', en: 'Free Measuring' },
+  { page: 'home', section: 'services', key: 'measuring.desc', en: 'Professional measuring service' },
+  { page: 'home', section: 'services', key: 'delivery.title', en: 'Free Delivery' },
+  { page: 'home', section: 'services', key: 'delivery.desc', en: 'Fast and secure delivery' },
+  
+  // Gallery
+  { page: 'gallery', section: 'header', key: 'title', en: 'Our Collection' },
+  { page: 'gallery', section: 'header', key: 'subtitle', en: 'Discover our premium carpet collection' },
+  { page: 'gallery', section: 'filters', key: 'all', en: 'All Carpets' },
+  { page: 'gallery', section: 'filters', key: 'new', en: 'New' },
+  { page: 'gallery', section: 'filters', key: 'bestSeller', en: 'Best Seller' },
+  { page: 'gallery', section: 'filters', key: 'recommended', en: 'Recommended' },
+  
+  // And many more...
+] as const;
+```
+
+## i18n Consumption
+
+### Library Function
+Create `lib/i18n.ts`:
+```typescript
+export function t(
+  page: string, 
+  section: string, 
+  key: string, 
+  locale: 'en'|'tk'|'ru'
+): string {
+  // Load from content/i18n/<locale>.json
+  // Fallback to English if missing
+  // Support revalidateTag('i18n')
+}
+```
+
+### Usage in Components
+```typescript
+// Replace hardcoded text
+<h1>{t('home', 'hero', 'title', locale)}</h1>
+<p>{t('home', 'hero', 'subtitle', locale)}</p>
+```
+
+## Publishing Workflow
+
+### Save & Publish Process
+1. **Save Changes**: PUT to `/api/translations` with batch updates
+2. **Generate Files**: POST to `/api/translations/sync-json`
+3. **Revalidate**: `revalidateTag('i18n')` + `revalidatePath('/')`
+4. **Update Pages**: Revalidate specific pages: `/gallery`, `/about`, `/collaboration`, `/stores`
+5. **User Feedback**: Toast notification "Published successfully"
+
+### File Generation
+- Generate `content/i18n/{en,tk,ru}.json` grouped by page/section
+- Remove any `de.json` files and German references
+- Structure: `{ [page]: { [section]: { key: value } } }`
+
+## Validation Rules
+
+### Data Validation
+- **Unique Keys**: Enforce `{page, section, key}` uniqueness
+- **Non-empty Keys**: Disallow empty key values
+- **Placeholder Matching**: Ensure `{count}`, `%s` appear identically across locales
+- **Length Limits**: Max 1000 characters per value
+- **Whitespace**: Trim leading/trailing whitespace
+
+### UI Validation
+- **Real-time Feedback**: Show validation errors immediately
+- **Conflict Resolution**: Handle import conflicts gracefully
+- **Optimistic Updates**: Revert on failure with user notification
+
+## Accessibility & UX
+
+### Keyboard Navigation
+- **Arrow Keys**: Move between cells
+- **Tab**: Move to next editable field
+- **Escape**: Cancel current edit
+- **Cmd/Ctrl+S**: Save current changes
+
+### Visual Feedback
+- **Loading States**: Spinners during API calls
+- **Success/Error**: Toast notifications
+- **Progress Indicators**: Show save/publish progress
+- **Optimistic Updates**: Immediate UI updates with rollback on error
+
+## German Language Removal
+
+### Complete Removal Checklist
+- [ ] Remove `de.json` files from `content/i18n/`
+- [ ] Remove German from language switcher component
+- [ ] Remove German from i18n configuration
+- [ ] Remove German from URL routing
+- [ ] Remove German from browser detection
+- [ ] Update all language arrays to exclude 'de'
+
+## Implementation Priority
+
+1. **Database Schema**: Update Prisma models and run migration
+2. **API Routes**: Implement all translation endpoints
+3. **Translation Keys**: Create comprehensive registry
+4. **Frontend UI**: Build admin interface with all features
+5. **i18n Library**: Create consumption layer for public pages
+6. **Integration**: Replace hardcoded text with translation calls
+7. **Testing**: Verify all functionality and edge cases
+8. **Cleanup**: Remove all German language remnants
+
+## Success Criteria
+
+- [ ] Can filter, search, and edit translations inline
+- [ ] Can import/export JSON/CSV formats
+- [ ] Can create missing keys from registry
+- [ ] Publishing updates live site immediately
+- [ ] No German language anywhere in codebase
+- [ ] Audit log records all actions
+- [ ] Responsive design works on all devices
+- [ ] Keyboard navigation is fully functional
+- [ ] All validation rules are enforced
+- [ ] Performance is optimized for large datasets

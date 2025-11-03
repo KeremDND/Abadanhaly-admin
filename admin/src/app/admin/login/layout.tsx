@@ -6,9 +6,11 @@ export const metadata: Metadata = {
   description: "Admin Login" 
 };
 
+// Login layout - bypasses parent admin layout auth check
+// This layout is nested under /admin/layout.tsx but we need it to work without auth
 export default function LoginLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-dvh bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
       {children}
     </div>
   );

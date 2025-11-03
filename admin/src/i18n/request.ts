@@ -1,8 +1,21 @@
-import { getRequestConfig } from "next-intl/server";
-import { defaultLocale, locales } from "./config";
+import { getRequestConfig } from 'next-intl/server';
+import { locales, defaultLocale } from './config';
 
 export default getRequestConfig(async ({ locale }) => {
-  const current = (locales.includes(locale as any) ? locale : defaultLocale) as "tk" | "ru" | "en" | "de";
-  const messages = (await import(`./messages/${current}.json`)).default;
-  return { locale: current, messages };
+  // Use default locale if locale is undefined
+  const validLocale = locale || defaultLocale;
+  
+  // Validate that the incoming `locale` parameter is valid
+  if (!validLocale || !locales.includes(validLocale as any)) {
+    console.warn(`Invalid locale: ${validLocale}, using default: ${defaultLocale}`);
+    return {
+      locale: defaultLocale,
+      messages: (await import(`./messages/${defaultLocale}.json`)).default
+    };
+  }
+
+  return {
+    locale: validLocale,
+    messages: (await import(`./messages/${validLocale}.json`)).default
+  };
 });

@@ -21,7 +21,7 @@ export async function PATCH(req: NextRequest) {
     create: { id: 1, brandName: updateData.brandName || "Abadan Haly", primaryHex: updateData.primaryHex || "#0B6A43", arEnabled: !!updateData.arEnabled },
   });
   revalidateTag("settings");
-  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
+  ['/','/gallery','/about','/collaboration'].forEach(path => revalidatePath(path));
   return NextResponse.json(s);
 }
 

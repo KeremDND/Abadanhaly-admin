@@ -24,7 +24,7 @@ export function OptimizedCarpetPicture({
         <img
           src={fallback}
           alt={item.alt}
-          loading="lazy"
+          loading="eager"
           decoding="async"
           style={{ width:'100%', height:'100%', objectFit:'cover' }}
         />

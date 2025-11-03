@@ -7,7 +7,7 @@ type Block = {
   id: string;
   kind: string;
   position: number;
-  data: string;
+  data: any; // JsonValue from Prisma
 };
 
 type Page = {
@@ -24,7 +24,7 @@ export default function BlockEditor({ page }: { page: Page }) {
       id: b.id,
       kind: b.kind,
       position: b.position,
-      data: JSON.parse(b.data),
+      data: typeof b.data === 'string' ? JSON.parse(b.data) : b.data,
     }))
   );
   const [saving, setSaving] = useState(false);
