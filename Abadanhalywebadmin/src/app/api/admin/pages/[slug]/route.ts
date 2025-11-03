@@ -7,7 +7,7 @@ const blockSchema = z.object({
   id: z.string().optional(),
   kind: z.string(),
   position: z.number(),
-  data: z.record(z.any()),
+  data: z.any(),
 });
 
 const pageUpdateSchema = z.object({

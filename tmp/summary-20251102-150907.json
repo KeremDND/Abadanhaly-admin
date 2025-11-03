@@ -1,0 +1,4 @@
+{
+  "summary": "Fixed login API endpoint error. The user had changed the fetch URL to /api/admin-login but the actual API route is /api/admin/login. Fixed the endpoint and added better error handling to check for JSON responses before parsing. Login should now work correctly.",
+  "current_status": "Fixed API endpoint mismatch. Login page now correctly calls /api/admin/login. Added JSON content-type validation to prevent parsing errors. Login functionality should work properly now."
+}

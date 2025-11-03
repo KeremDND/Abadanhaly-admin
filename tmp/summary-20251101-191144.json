@@ -1,0 +1,4 @@
+{
+  "summary": "Fixed JSON syntax errors in all locale files (en.json, ru.json, tk.json). The issue was duplicate 'gallery' keys - there was a nested 'gallery' object at the end of each file that conflicted with the flat 'gallery.*' keys already present. Removed the duplicate nested objects. All JSON files are now valid and translations should load correctly.",
+  "current_status": "All locale files fixed and validated. JSON syntax errors resolved. Translation keys for Collaboration and About pages are now properly structured. Ready for testing - translations should display correctly instead of showing translation keys."
+}

@@ -1,0 +1,5 @@
+{
+  "summary": "Updated the collaboration page header image to use a local image path instead of an external URL. Changed the image source from 'https://business.com.tm/images/uploads/posts/Abadan%20haly%208.jpg' to '/Images/page-images/Abadan Haly collab page.png'. The existing image file is already present in the public folder. If a new image is provided, it should be saved to replace the existing file at public/Images/page-images/Abadan Haly collab page.png.",
+  "current_status": "The collaboration page header image has been updated to use a local path. The code is ready to use the attached image once it's saved to the specified location. All code changes are complete and linted."
+}
+

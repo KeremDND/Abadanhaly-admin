@@ -1,0 +1,36 @@
+🚀 QUICK START GUIDE - Get Development Server Running
+
+STEP 1: Install Node.js
+=======================
+1. Visit: https://nodejs.org/
+2. Download LTS version (green button)
+3. Install it
+4. CLOSE this terminal
+5. Open NEW terminal
+
+STEP 2: Verify Node.js
+======================
+In NEW terminal, run:
+  node --version
+Should show: v18.x.x or v20.x.x
+
+STEP 3: Install pnpm
+====================
+  npm install -g pnpm
+
+STEP 4: Setup Project
+=====================
+  cd /Users/keremjumalyyev/Desktop/project
+  ./scripts/setup-all-dependencies.sh
+
+STEP 5: Start Server
+===================
+  ./START_DEV_SERVER.sh
+  OR
+  pnpm dev
+
+STEP 6: Open Browser
+====================
+  http://localhost:5173
+
+🎉 Done! Changes appear instantly!

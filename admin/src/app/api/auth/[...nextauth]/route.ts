@@ -14,7 +14,7 @@ const authHandler = NextAuth({
   adapter: PrismaAdapter(prisma as any),
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
-  pages: { signIn: "/admin/login" },
+  pages: { signIn: "/admin-login" },
   providers: [
     Credentials({
       name: "Credentials",

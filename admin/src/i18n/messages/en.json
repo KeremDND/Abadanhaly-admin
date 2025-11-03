@@ -1,8 +1,45 @@
 {
-  "nav.pages": "Pages",
-  "nav.products": "Products",
-  "nav.translations": "Translations",
-  "nav.stores": "Stores",
-  "nav.settings": "Settings",
-  "nav.audit": "Audit"
+  "nav": {
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "translations": "Translations"
+  },
+  "admin": {
+    "login": {
+      "title": "Admin Login",
+      "subtitle": "Enter your credentials to access the admin panel",
+      "email": "Email address",
+      "password": "Password",
+      "signIn": "Sign In",
+      "signingIn": "Signing in...",
+      "error": "Login error occurred"
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "products": "Products",
+      "translations": "Translations",
+      "stores": "Stores",
+      "auditLogs": "Audit Logs"
+    },
+    "products": {
+      "title": "Products",
+      "addProduct": "Add Product",
+      "name": "Name",
+      "sku": "SKU",
+      "color": "Color",
+      "category": "Category",
+      "active": "Active",
+      "actions": "Actions"
+    },
+    "translations": {
+      "title": "Translations",
+      "saveChanges": "Save Changes",
+      "page": "Page",
+      "section": "Section",
+      "key": "Key",
+      "turkmen": "Turkmen",
+      "russian": "Russian",
+      "english": "English"
+    }
+  }
 }

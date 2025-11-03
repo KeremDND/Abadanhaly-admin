@@ -1,0 +1,4 @@
+{
+  "summary": "Fixed sync-products route to use readFile instead of dynamic import. Removed any import statements for data/products.ts. The route now reads the file from filesystem and parses it using Function constructor. Cleared Next.js build cache to ensure changes take effect.",
+  "current_status": "Sync endpoint fixed - no longer tries to import TS files. Uses readFile to read and parse products.ts at runtime. Build cache cleared. The sync button should now work properly."
+}

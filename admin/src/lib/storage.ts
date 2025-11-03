@@ -3,7 +3,6 @@ import fs from "fs/promises";
 import { fileTypeFromBuffer } from "file-type";
 import sharp from "sharp";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { put as blobPut } from "@vercel/blob";
 import { v4 as uuidv4 } from "uuid";
 
 export type StorageResult = {
@@ -103,26 +102,6 @@ export async function saveUpload(filename: string, bytes: Buffer): Promise<Stora
     return result;
   }
 
-  if (storage === "blob") {
-    const key = `uploads/${baseName}`;
-    const put = await blobPut(key, bytes, { access: "public", contentType: mime });
-    const result: StorageResult = { url: put.url, sizeBytes: bytes.length, mime };
-    if (isImage(mime)) {
-      const img = sharp(bytes);
-      const meta = await img.metadata();
-      result.width = meta.width;
-      result.height = meta.height;
-      const webp = await img.webp({ quality: 82 }).toBuffer();
-      const webpPut = await blobPut(`uploads/${baseName.replace(/\.[^.]+$/, ".webp")}`, webp, { access: "public", contentType: "image/webp" });
-      const avif = await img.avif({ quality: 50 }).toBuffer();
-      const avifPut = await blobPut(`uploads/${baseName.replace(/\.[^.]+$/, ".avif")}`, avif, { access: "public", contentType: "image/avif" });
-      result.variants = [
-        { format: "webp", url: webpPut.url, width: meta.width || 0, height: meta.height || 0, sizeBytes: webp.length, mime: "image/webp" },
-        { format: "avif", url: avifPut.url, width: meta.width || 0, height: meta.height || 0, sizeBytes: avif.length, mime: "image/avif" },
-      ];
-    }
-    return result;
-  }
 
   throw new Error(`Unsupported STORAGE_PROVIDER: ${storage}`);
 }

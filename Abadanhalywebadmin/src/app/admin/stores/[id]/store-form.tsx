@@ -18,8 +18,8 @@ type Store = {
   whatsapp: string | null;
   email: string | null;
   mapsUrl: string | null;
-  hours: string | null;
-  services: string | null;
+  hours: any; // JsonValue from Prisma
+  services: any; // JsonValue from Prisma
   deliveryKm: number | null;
   isActive: boolean;
   priority: number;

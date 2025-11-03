@@ -1,0 +1,342 @@
+---
+description: Rebuild Gallery page to be minimal, elegant, and fast with clean product grid
+globs: app/gallery/**,components/GalleryCard.tsx,data/products.ts
+---
+
+# Gallery Page Rebuild - Minimal, Elegant, Fast
+
+## Overview
+Rebuild the `/gallery` page to be minimal, symmetric, and high-performance. Remove all AI bars, search, filters, and complex UI elements. Keep only: Page Title, Short Description, and a clean horizontal product gallery.
+
+## Tech Stack & Conventions
+- **Framework**: Next.js App Router, TypeScript, Tailwind CSS
+- **Icons**: lucide-react for zoom icons
+- **Images**: Use existing `/public/images/Halylar/**` paths
+- **Data Source**: `data/products.ts` with static JSON/TS
+- **ISR**: `export const revalidate = 3600` with tagged revalidation `'products'`
+- **i18n**: Use existing translation keys + new gallery keys
+
+## Product Data Structure
+
+```typescript
+// data/products.ts
+export type Product = {
+  id: string;
+  name: string; // display name shown under card
+  image: string; // "/images/Halylar/…/file.jpg"
+  category: 'new' | 'bestseller' | 'recommended';
+  slug?: string; // optional future PDP
+  altTK: string; altRU: string; altEN: string; // for <img alt> i18n
+}
+export const products: Product[] = [/* seed 12-24 using current images */];
+```
+
+## Required i18n Keys
+
+Add these translation keys to all locale files:
+
+```json
+// tk.json
+"gallery": {
+  "title": "Galereýa",
+  "subtitle": "Öýüňiz üçin iň laýyk türkmen halylaryny gözden geçiriň — täze, meşhur we maslahat berilýän görnüşler.",
+  "tabs": { "new": "Täze", "bestseller": "Iň köp satylýan", "recommended": "Maslahat berilýän" },
+  "zoom": "Uly görmek"
+}
+
+// ru.json
+"gallery": {
+  "title": "Галерея",
+  "subtitle": "Просматривайте туркменские ковры для вашего дома — новинки, бестселлеры и рекомендации.",
+  "tabs": { "new": "Новинки", "bestseller": "Бестселлеры", "recommended": "Рекомендуем" },
+  "zoom": "Увеличить"
+}
+
+// en.json
+"gallery": {
+  "title": "Gallery",
+  "subtitle": "Explore Turkmen carpets for your home — new, best sellers and recommended picks.",
+  "tabs": { "new": "New", "bestseller": "Best Seller", "recommended": "Recommended" },
+  "zoom": "Zoom"
+}
+```
+
+## File Structure to Create/Modify
+
+### 1. `app/gallery/page.tsx` - Main Gallery Page
+- **Server Component** that loads products
+- **ISR**: `export const revalidate = 3600`
+- **Layout**: max-w-[1200px] mx-auto px-4 sm:px-6
+- **Header**: Centered title + subtitle
+- **Client Components**: GalleryTabs + GalleryGrid for category filtering
+
+### 2. `components/GalleryCard.tsx` - Product Card Component
+- **Client Component** with hover zoom icon
+- **Lightbox**: Full-screen dialog with image
+- **Accessibility**: Proper alt text, ARIA labels, focus management
+- **Styling**: Group hover effects, smooth transitions
+
+### 3. `data/products.ts` - Product Data
+- **Seed 12-24 products** from existing `/public/images/Halylar/**` paths
+- **Category Distribution**: ~40% bestseller, 35% recommended, 25% new
+- **Alt Text**: Generate from filename (color + pattern)
+- **Real File Paths**: Use actual image paths found in public directory
+
+### 4. `lib/revalidate.ts` - Revalidation Helper
+- **Function**: `revalidateProducts()` that calls `revalidateTag('products')`
+- **Usage**: Call after admin panel changes
+
+## Layout & Styling Specifications
+
+### Container & Spacing
+```css
+/* Main container */
+max-w-[1200px] mx-auto px-4 sm:px-6
+
+/* Header spacing */
+py-14, mt-12 for sections, gap-8/10/12 for spacing
+```
+
+### Header Block (Centered)
+```css
+/* Title */
+text-4xl md:text-5xl font-semibold text-emerald-700 tracking-tight
+
+/* Subtitle */
+text-neutral-600 mt-3 max-w-2xl mx-auto
+```
+
+### Category Pills
+```css
+/* Pill styling */
+rounded-full px-4 py-1.5 border bg-white hover:bg-neutral-50
+/* Active state */
+bg-emerald-700 text-white border-emerald-700
+/* Default active: Best Seller */
+```
+
+### Product Grid
+```css
+/* Grid layout */
+grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-20
+
+/* Card wrapper */
+group relative
+
+/* Image area */
+aspect-[3/4] overflow-hidden rounded-2xl shadow-sm bg-neutral-100
+/* Shadow: shadow-[0_8px_30px_rgba(0,0,0,0.05)] */
+```
+
+### Hover Zoom Icon
+```css
+/* Position */
+absolute right-3 top-3 z-10
+
+/* Animation */
+opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition
+
+/* Styling */
+rounded-full backdrop-blur bg-white/70 border p-2 hover:bg-white
+```
+
+### Product Name
+```css
+/* Text styling */
+mt-3 text-sm font-medium text-neutral-900 truncate text-center
+```
+
+## Performance Requirements
+
+### Image Optimization
+- **next/image**: `priority={false}`, `placeholder="empty"`
+- **Sizes**: `(max-width:768px) 50vw, (max-width:1200px) 25vw, 300px`
+- **Loading**: `loading="lazy"`, `decoding="async"`
+- **Object Fit**: `object-cover` for cards, `object-contain` for lightbox
+- **Aspect Ratio**: Fixed `aspect-[3/4]` to prevent CLS
+
+### ISR & Revalidation
+- **Page Level**: `export const revalidate = 3600`
+- **Tagged Revalidation**: Use `'products'` tag
+- **Admin Integration**: Call revalidation after changes
+
+## Accessibility Requirements
+
+### Alt Text
+- **Source**: Use `altTK`, `altRU`, `altEN` from product data
+- **Format**: "Güneş 2382 — çal/boýy — 200×300" (color + pattern + size)
+
+### Focus Management
+- **Arrow Keys**: Navigate between cards
+- **Lightbox**: Focus trap, ESC to close
+- **ARIA Labels**: All interactive elements properly labeled
+
+### Screen Reader Support
+- **Close Button**: `sr-only` close label in lightbox
+- **Zoom Button**: Proper `aria-label` with translation
+
+## Lightbox Implementation
+
+### Dialog Structure
+```tsx
+<Dialog.Root open={open} onOpenChange={setOpen}>
+  <Dialog.Portal>
+    <Dialog.Overlay className="fixed inset-0 bg-black/70" />
+    <Dialog.Content className="fixed inset-0 grid place-items-center p-4">
+      <div className="relative w-full max-w-5xl aspect-video md:aspect-[3/2] bg-black">
+        <Image src={image} alt={alt} fill className="object-contain" />
+      </div>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+### Interactions
+- **Open**: Click image or zoom icon
+- **Close**: ESC key, click outside, or close button
+- **Navigation**: Arrow keys between images (future enhancement)
+
+## Client Components
+
+### GalleryTabs
+- **State**: `useState` for selected category
+- **Default**: "bestseller"
+- **Styling**: Minimalist pill design
+- **Accessibility**: Proper button roles and labels
+
+### GalleryGrid
+- **Props**: Products array, selected category
+- **Filtering**: Client-side category filtering
+- **Rendering**: Map products to GalleryCard components
+- **Performance**: Memoize filtered results
+
+## Cleanup Requirements
+
+### Remove Elements
+- ❌ Abadan AI bar
+- ❌ Suggestion chips
+- ❌ Search bar
+- ❌ Filter controls
+- ❌ "styles/colors/popular/qty" controls
+- ❌ Price/SKU/CTA elements
+
+### Keep Elements
+- ✅ Page Title
+- ✅ Short Description
+- ✅ Clean product grid
+- ✅ Category tabs (minimal)
+- ✅ Hover zoom functionality
+
+## QA Acceptance Criteria
+
+### Visual
+- [ ] Page shows only Title, Subtitle, and product grid
+- [ ] No AI/search/filter UI remains
+- [ ] Hovering card shows zoom icon
+- [ ] Clicking opens full-screen lightbox
+- [ ] ESC closes lightbox
+- [ ] Category pills switch products instantly
+- [ ] Default shows Best Seller category
+
+### Performance
+- [ ] Lighthouse: CLS ~0, good LCP
+- [ ] Images lazy-loaded below fold
+- [ ] All images load from `/public/images/Halylar/**`
+- [ ] Images look crisp, centered, symmetric
+
+### Accessibility
+- [ ] Alt text present on all images
+- [ ] Buttons have proper labels
+- [ ] Dialog is focus-trapped
+- [ ] Arrow key navigation works
+- [ ] Screen reader friendly
+
+### Functionality
+- [ ] Category filtering works client-side
+- [ ] Lightbox opens/closes properly
+- [ ] All translations display correctly
+- [ ] Responsive design works on all screen sizes
+
+## Implementation Order
+
+1. **Create product data** (`data/products.ts`) with real image paths
+2. **Add i18n keys** to all locale files
+3. **Build GalleryCard component** with lightbox
+4. **Create main gallery page** with server/client split
+5. **Implement client components** (tabs, grid)
+6. **Add revalidation helper** for admin integration
+7. **Test and cleanup** old gallery UI elements
+8. **Performance testing** and accessibility audit
+
+## Example Code Snippets
+
+### GalleryCard Component
+```tsx
+'use client';
+import Image from 'next/image';
+import { ZoomIn } from 'lucide-react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { useState } from 'react';
+
+export function GalleryCard({
+  name, image, alt, zoomLabel
+}: { name:string; image:string; alt:string; zoomLabel:string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="group relative">
+      <button
+        aria-label={zoomLabel}
+        onClick={() => setOpen(true)}
+        className="absolute right-3 top-3 z-10 opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition
+                   rounded-full backdrop-blur bg-white/70 border p-2 hover:bg-white"
+      >
+        <ZoomIn className="h-4 w-4" />
+      </button>
+      <button onClick={() => setOpen(true)} className="block w-full text-left">
+        <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100 shadow-sm">
+          <Image src={image} alt={alt} fill sizes="(max-width:768px) 50vw, (max-width:1200px) 25vw, 300px" className="object-cover" />
+        </div>
+        <div className="mt-3 text-center text-sm font-medium text-neutral-900 truncate">{name}</div>
+      </button>
+
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="fixed inset-0 bg-black/70" />
+          <Dialog.Content className="fixed inset-0 grid place-items-center p-4">
+            <div className="relative w-full max-w-5xl aspect-video md:aspect-[3/2] bg-black">
+              <Image src={image} alt={alt} fill className="object-contain" />
+            </div>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
+    </div>
+  );
+}
+```
+
+### Main Gallery Page Structure
+```tsx
+import { products } from '@/data/products';
+import { GalleryCard } from '@/components/GalleryCard';
+import { useTranslations } from 'next-intl';
+
+export const revalidate = 3600;
+
+export default async function GalleryPage() {
+  const t = useTranslations();
+
+  return (
+    <main className="max-w-[1200px] mx-auto px-4 sm:px-6 py-14">
+      <header className="text-center">
+        <h1 className="text-4xl md:text-5xl font-semibold text-emerald-700">{t('gallery.title')}</h1>
+        <p className="mt-3 text-neutral-600 max-w-2xl mx-auto">{t('gallery.subtitle')}</p>
+      </header>
+
+      <GalleryTabs />
+      <GalleryGrid products={products} />
+    </main>
+  );
+}
+```
+
+This rule provides comprehensive guidance for rebuilding the Gallery page to be minimal, elegant, and fast while maintaining all the specified requirements and performance standards.

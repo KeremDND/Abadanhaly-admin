@@ -1,6 +1,4 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
@@ -8,7 +6,7 @@ import LanguageToast from './components/LanguageToast';
 
 // Lazy load components
 const Hero = lazy(() => import('./components/Hero'));
-const Gallery = lazy(() => import('./components/Gallery'));
+const Gallery = lazy(() => import('./components/NewGallery'));
 const Collaboration = lazy(() => import('./components/Collaboration'));
 const About = lazy(() => import('./components/About'));
 
@@ -103,8 +101,6 @@ function App() {
         </main>
                        <Footer onNavigate={navigate} />
                <LanguageToast />
-               <Analytics />
-               <SpeedInsights />
       </div>
     </AuthProvider>
   );

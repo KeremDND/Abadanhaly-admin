@@ -569,7 +569,7 @@ export default function Gallery() {
                       src={product.optimizedData.srcset.jpg[0].src}
                       alt={`abadan-haly — ${product.sku}, ${product.dominantColor}, ${product.type}, carpet`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      loading={index < 8 ? 'eager' : 'lazy'}
+                      loading="eager"
                       onError={(e) => {
                         console.log('Image failed to load:', e.currentTarget.src);
                         e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
@@ -580,7 +580,7 @@ export default function Gallery() {
                       src={product.src}
                       alt={`abadan-haly — ${product.sku}, ${product.dominantColor}, ${product.type}, carpet`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      loading={index < 8 ? 'eager' : 'lazy'}
+                      loading="eager"
                       onError={(e) => {
                         console.log('Image failed to load:', e.currentTarget.src);
                         e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Cream- 2004- carpet.jpg';
@@ -666,24 +666,6 @@ export default function Gallery() {
               </div>
             ))}
 
-            {/* Skeleton Loaders */}
-            {loading && Array.from({ length: 8 }).map((_, index) => (
-              <div key={`skeleton-${index}`} className="bg-white rounded-xl border border-gray-100 overflow-hidden animate-pulse">
-                <div className="aspect-[0.71] bg-gray-200"></div>
-                <div className="p-4 space-y-2">
-                  <div className="h-4 bg-gray-200 rounded"></div>
-                  <div className="h-3 bg-gray-200 rounded w-2/3"></div>
-                  <div className="flex gap-1">
-                    <div className="w-3 h-3 bg-gray-200 rounded-full"></div>
-                    <div className="w-3 h-3 bg-gray-200 rounded-full"></div>
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="flex-1 h-8 bg-gray-200 rounded-lg"></div>
-                    <div className="flex-1 h-8 bg-gray-200 rounded-lg"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Load More */}

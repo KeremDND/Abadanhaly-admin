@@ -1,8 +1,45 @@
 {
-  "nav.pages": "Страницы",
-  "nav.products": "Товары",
-  "nav.translations": "Переводы",
-  "nav.stores": "Магазины",
-  "nav.settings": "Настройки",
-  "nav.audit": "Аудит"
+  "nav": {
+    "dashboard": "Панель управления",
+    "products": "Товары",
+    "translations": "Переводы"
+  },
+  "admin": {
+    "login": {
+      "title": "Вход в админку",
+      "subtitle": "Введите свои данные для доступа к панели администратора",
+      "email": "Адрес электронной почты",
+      "password": "Пароль",
+      "signIn": "Войти",
+      "signingIn": "Вход...",
+      "error": "Ошибка входа"
+    },
+    "dashboard": {
+      "title": "Панель управления",
+      "products": "Товары",
+      "translations": "Переводы",
+      "stores": "Магазины",
+      "auditLogs": "Журнал аудита"
+    },
+    "products": {
+      "title": "Товары",
+      "addProduct": "Добавить товар",
+      "name": "Название",
+      "sku": "SKU",
+      "color": "Цвет",
+      "category": "Категория",
+      "active": "Активный",
+      "actions": "Действия"
+    },
+    "translations": {
+      "title": "Переводы",
+      "saveChanges": "Сохранить изменения",
+      "page": "Страница",
+      "section": "Раздел",
+      "key": "Ключ",
+      "turkmen": "Туркменский",
+      "russian": "Русский",
+      "english": "Английский"
+    }
+  }
 }

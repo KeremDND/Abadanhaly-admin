@@ -26,7 +26,7 @@ export async function PATCH(
     data: body,
   });
   revalidateTag("products");
-  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
+  ['/','/gallery','/about','/collaboration'].forEach(path => revalidatePath(path));
   return NextResponse.json(product);
 }
 
@@ -37,7 +37,7 @@ export async function DELETE(
   const { id } = await params;
   await db.product.delete({ where: { id } });
   revalidateTag("products");
-  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
+  ['/','/gallery','/about','/collaboration'].forEach(path => revalidatePath(path));
   return NextResponse.json({ ok: true });
 }
 

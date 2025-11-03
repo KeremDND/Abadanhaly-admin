@@ -17,7 +17,7 @@ export async function PATCH(
   });
 
   revalidateTag("i18n");
-  ['/','/gallery','/about','/collaboration'].forEach(revalidatePath);
+  ['/','/gallery','/about','/collaboration'].forEach(path => revalidatePath(path));
   return NextResponse.json({ ok: true });
 }
 

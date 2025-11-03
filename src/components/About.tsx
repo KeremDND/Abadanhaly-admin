@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { 
   Award, 
   Users, 
@@ -26,8 +27,9 @@ interface AboutProps {
 }
 
 export default function About({ onNavigate }: AboutProps) {
+  const { t } = useTranslation();
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const [selectedCertificate, setSelectedCertificate] = useState<number | null>(null);
+  const [selectedCertificate, setSelectedCertificate] = useState<number | null>(null); // -1 for award, 0-2 for certificates
   const [counters, setCounters] = useState({
     employees: 0,
     looms: 0,
@@ -88,70 +90,83 @@ export default function About({ onNavigate }: AboutProps) {
   const milestones = [
     {
       year: '2016',
-      title: 'Founded',
-      description: '3 Vandewiele machines and a clear mission: quality and scale.',
+      title: t('about.milestones.2016'),
+      description: t('about.milestones.2016.desc'),
       icon: <Factory className="w-5 h-5" />
     },
     {
       year: '2017',
-      title: 'First exports',
-      description: 'International shipments begin.',
+      title: t('about.milestones.2017'),
+      description: t('about.milestones.2017.desc'),
       icon: <Globe className="w-5 h-5" />
     },
     {
       year: '2020',
-      title: 'National record',
-      description: '3,000,000 m² of carpets and carpet items produced.',
+      title: t('about.milestones.2020'),
+      description: t('about.milestones.2020.desc'),
       icon: <Award className="w-5 h-5" />
     },
     {
-      year: '2024+',
-      title: 'Innovation',
-      description: 'AI-assisted design workflows; expanded product ranges.',
+      year: '2022',
+      title: t('about.milestones.2022'),
+      description: t('about.milestones.2022.desc'),
       icon: <Zap className="w-5 h-5" />
     },
     {
       year: '2025',
-      title: 'Today',
-      description: '8 Vandewiele looms, 600+ employees, 24/7 operations.',
+      title: t('about.milestones.current'),
+      description: t('about.milestones.current.desc'),
       icon: <Users className="w-5 h-5" />
     }
   ];
 
   const certifications = [
     {
-      name: 'ISO 9001',
-      title: 'Quality Management',
-      description: 'Ensures consistent quality in our manufacturing processes and customer satisfaction.',
+      name: t('certs.iso9001').split(' — ')[0],
+      title: t('certs.quality'),
+      description: t('certs.quality.desc'),
       icon: <Star className="w-6 h-6" />,
       color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
+      bgColor: 'bg-blue-50',
+      image: '/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'
     },
     {
-      name: 'ISO 14001',
-      title: 'Environmental Management',
-      description: 'Demonstrates our commitment to environmental responsibility and sustainable practices.',
+      name: t('certs.iso14001').split(' — ')[0],
+      title: t('certs.environmental'),
+      description: t('certs.environmental.desc'),
       icon: <Leaf className="w-6 h-6" />,
       color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      bgColor: 'bg-green-50',
+      image: '/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'
     },
     {
-      name: 'ISO 45001',
-      title: 'Occupational Health & Safety',
-      description: 'Guarantees the highest standards of workplace safety and employee well-being.',
+      name: t('certs.iso45001').split(' — ')[0],
+      title: t('certs.safety'),
+      description: t('certs.safety.desc'),
       icon: <Shield className="w-6 h-6" />,
       color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      bgColor: 'bg-red-50',
+      image: '/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'
     }
   ];
 
+  const award = {
+    name: t('about.award.title'),
+    title: t('about.award.subtitle'),
+    description: t('about.award.desc'),
+    icon: <Award className="w-6 h-6" />,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-50',
+    image: '/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'
+  };
+
   const missions = [
-    'Improve quality continuously.',
-    'Catch and keep world standards.',
-    'Happy, responsive customer care.',
-    'Extend to foreign countries.',
-    'Modern & beautiful design for daily life.',
-    'IT/AI-assisted design for reliable prices & fast production.'
+    t('about.mission.1'),
+    t('about.mission.2'),
+    t('about.mission.3'),
+    t('about.mission.4'),
+    t('about.mission.5'),
+    t('about.mission.6')
   ];
 
   const markets = {
@@ -174,19 +189,10 @@ export default function About({ onNavigate }: AboutProps) {
         >
           {/* Left - Text */}
           <div className="space-y-8">
-            <div className="font-hand text-2xl text-[#0F3B2F]">
-              Abadan Haly, Owadan Haly
-            </div>
-            
-            <h1 className="text-5xl lg:text-6xl font-bold text-[#1A1A1A] leading-tight">
-              Crafted at scale.<br />
-              Built for real homes.
-            </h1>
+            <h1 className="text-5xl lg:text-6xl font-bold text-[#1A1A1A] leading-tight" dangerouslySetInnerHTML={{ __html: t('about.hero.title') }}></h1>
             
             <p className="text-lg text-gray-600 leading-relaxed max-w-lg">
-              Founded on 15 February 2016, Abadan Haly runs 24/7 production with 600+ specialists. 
-              We operate Belgian Vandewiele looms and spin our own Neumag polypropylene yarn to deliver 
-              modern, color-fast carpets—reliable at scale.
+              {t('about.hero.subtitle')}
             </p>
             
             <div className="flex gap-4">
@@ -194,13 +200,13 @@ export default function About({ onNavigate }: AboutProps) {
                 onClick={() => onNavigate('gallery')}
                 className="bg-[#0F3B2F] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-all duration-180 hover:scale-105"
               >
-                Explore Carpets
+                {t('about.hero.explore')}
               </button>
               <button
                 onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}
                 className="border border-gray-200 text-[#1A1A1A] px-8 py-3 rounded-xl font-medium hover:bg-gray-50 transition-all duration-180"
               >
-                Contact Us
+                {t('about.hero.contact')}
               </button>
             </div>
           </div>
@@ -225,7 +231,7 @@ export default function About({ onNavigate }: AboutProps) {
             visibleSections.has('timeline') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">Our Story</h2>
+          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">{t('about.story.title')}</h2>
           
           <div className="space-y-8">
             {milestones.map((milestone, index) => (
@@ -256,9 +262,9 @@ export default function About({ onNavigate }: AboutProps) {
           {/* Stats Row */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
             {[
-              { number: `${counters.employees}+`, label: 'employees' },
-              { number: '24/7', label: 'production' },
-              { number: `${counters.looms}`, label: 'Vandewiele looms' },
+              { number: `${counters.employees}+`, label: t('about.stats.employees') },
+              { number: '24/7', label: t('about.stats.production') },
+              { number: `${counters.looms}`, label: t('about.stats.looms') },
               { number: `${counters.production}M m²`, label: '(2020)' }
             ].map((stat, index) => (
               <div key={index} className="text-center">
@@ -277,9 +283,9 @@ export default function About({ onNavigate }: AboutProps) {
                 <Target className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Own Yarn, Reliable Quality</h3>
+                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">{t('about.features.yarn.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  We spin polypropylene yarn in-house on German Neumag lines to ensure color-fastness and consistency.
+                  {t('about.features.yarn.desc')}
                 </p>
               </div>
             </div>
@@ -289,53 +295,15 @@ export default function About({ onNavigate }: AboutProps) {
                 <Factory className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">Precision Machinery</h3>
+                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">{t('about.features.machinery.title')}</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Belgian Vandewiele looms deliver detail, density, and repeatable quality at production speeds.
+                  {t('about.features.machinery.desc')}
                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Heritage × Modern Design */}
-        <div 
-          ref={el => sectionRefs.current['heritage'] = el}
-          id="heritage"
-          className={`mb-32 transition-all duration-300 delay-300 ${
-            visibleSections.has('heritage') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-          }`}
-        >
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-[#1A1A1A] mb-6">
-                Where Turkman heritage meets modern culture
-              </h2>
-              <p className="text-lg text-gray-600 leading-relaxed">
-                We honor historical Turkman motifs while designing for today's interiors. Our studio blends 
-                tradition with innovation—using information technology and AI-driven iterations to meet customer 
-                expectations at reliable prices and fast lead times.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-xl overflow-hidden border border-gray-100">
-                <img
-                  src="https://images.pexels.com/photos/6782567/pexels-photo-6782567.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                  alt="Traditional Turkman carpet pattern detail"
-                  className="w-full h-32 object-cover"
-                />
-              </div>
-              <div className="rounded-xl overflow-hidden border border-gray-100">
-                <img
-                  src="https://images.pexels.com/photos/6969831/pexels-photo-6969831.jpeg?auto=compress&cs=tinysrgb&w=400&h=300&fit=crop"
-                  alt="Modern carpet texture detail"
-                  className="w-full h-32 object-cover"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
 
         {/* Quality, Safety & Environment */}
         <div 
@@ -345,17 +313,27 @@ export default function About({ onNavigate }: AboutProps) {
             visibleSections.has('certifications') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">
-            Quality, Safety & Environment
+          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-4 text-center">
+            {t('about.certificates.subtitle')}
           </h2>
+          <p className="text-lg text-gray-600 mb-16 text-center max-w-3xl mx-auto">
+            {t('about.certificates.subtitle.full')}
+          </p>
           
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {certifications.map((cert, index) => (
               <button
                 key={index}
                 onClick={() => setSelectedCertificate(index)}
-                className="bg-white border border-gray-100 rounded-2xl p-8 hover:shadow-sm transition-all duration-180 text-left group"
+                className="bg-white border border-gray-100 rounded-2xl p-8 hover:shadow-lg transition-all duration-180 text-left group cursor-pointer"
               >
+                <div className="relative mb-6 rounded-xl overflow-hidden bg-gray-50 aspect-[3/4] flex items-center justify-center">
+                  <img
+                    src={cert.image}
+                    alt={`${cert.name} Certificate`}
+                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
                 <div className={`w-12 h-12 ${cert.bgColor} rounded-xl flex items-center justify-center ${cert.color} mb-4 group-hover:scale-110 transition-transform duration-180`}>
                   {cert.icon}
                 </div>
@@ -366,12 +344,26 @@ export default function About({ onNavigate }: AboutProps) {
             ))}
           </div>
 
-          {/* Award */}
-          <div className="text-center">
-            <div className="inline-flex items-center bg-gradient-to-r from-[#C6A866] to-[#D4B876] text-white px-6 py-3 rounded-xl font-medium shadow-sm">
-              <Award className="w-5 h-5 mr-2" />
-              Year of Most Exported Products — Turkmenistan
-            </div>
+          {/* Award - Same design but wider */}
+          <div className="max-w-4xl mx-auto">
+            <button
+              onClick={() => setSelectedCertificate(-1)}
+              className="bg-white border border-gray-100 rounded-2xl p-8 hover:shadow-lg transition-all duration-180 text-left group cursor-pointer w-full"
+            >
+              <div className="relative mb-6 rounded-xl overflow-hidden bg-gray-50 aspect-[16/9] flex items-center justify-center">
+                <img
+                  src={award.image}
+                  alt={`${award.name} Award`}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className={`w-12 h-12 ${award.bgColor} rounded-xl flex items-center justify-center ${award.color} mb-4 group-hover:scale-110 transition-transform duration-180`}>
+                {award.icon}
+              </div>
+              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-2">{award.name}</h3>
+              <h4 className="text-sm font-medium text-[#0F3B2F] mb-3">{award.title}</h4>
+              <p className="text-sm text-gray-600 leading-relaxed">{award.description}</p>
+            </button>
           </div>
         </div>
 
@@ -383,11 +375,11 @@ export default function About({ onNavigate }: AboutProps) {
             visibleSections.has('markets') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">Markets & Stores</h2>
+          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">{t('about.markets.title')}</h2>
           
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-[#F7F7F8] rounded-2xl p-8">
-              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">Export Markets</h3>
+              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">{t('about.markets.exports')}</h3>
               <ul className="space-y-2">
                 {markets.exports.map((country, index) => (
                   <li key={index} className="flex items-center gap-3">
@@ -399,7 +391,7 @@ export default function About({ onNavigate }: AboutProps) {
             </div>
 
             <div className="bg-[#F7F7F8] rounded-2xl p-8">
-              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">Domestic Focus</h3>
+              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">{t('about.markets.domestic')}</h3>
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-[#0F3B2F]" />
                 <span className="text-gray-700">{markets.domestic}</span>
@@ -407,10 +399,10 @@ export default function About({ onNavigate }: AboutProps) {
             </div>
 
             <div className="bg-[#F7F7F8] rounded-2xl p-8">
-              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">Retail Stores</h3>
+              <h3 className="text-lg font-semibold text-[#1A1A1A] mb-4">{t('about.markets.retail')}</h3>
               <div className="flex items-center gap-3">
                 <Building className="w-5 h-5 text-[#0F3B2F]" />
-                <span className="text-gray-700">{markets.stores} main carpet stores</span>
+                <span className="text-gray-700">{markets.stores} {t('about.markets.stores')}</span>
               </div>
             </div>
           </div>
@@ -424,7 +416,7 @@ export default function About({ onNavigate }: AboutProps) {
             visibleSections.has('mission') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">What Drives Us</h2>
+          <h2 className="text-3xl font-bold text-[#1A1A1A] mb-16 text-center">{t('about.mission.title')}</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {missions.map((mission, index) => (
@@ -441,89 +433,194 @@ export default function About({ onNavigate }: AboutProps) {
           </div>
         </div>
 
-        {/* Call to Action */}
+        {/* Contact Section */}
         <div 
           ref={el => sectionRefs.current['cta'] = el}
           id="cta"
-          className={`transition-all duration-300 delay-700 ${
+          className={`mb-32 transition-all duration-300 delay-700 ${
             visibleSections.has('cta') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >
-          <div className="bg-[#F7F7F8] rounded-2xl p-12 text-center">
-            <h2 className="text-2xl font-bold text-[#1A1A1A] mb-4">
-              Questions about sizing, lead times, or collaboration? We're here.
-            </h2>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => {
-                  // Navigate to home and scroll to contact form
-                  onNavigate('home');
-                  setTimeout(() => {
-                    const element = document.querySelector('[data-section="contact"]');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
-                }}
-                className="bg-[#0F3B2F] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-all duration-180 hover:scale-105"
-              >
-                Contact Us
-              </button>
-              <button
-                onClick={() => {
-                  // Navigate to home and scroll to stores
-                  onNavigate('home');
-                  setTimeout(() => {
-                    const element = document.querySelector('[data-section="stores"]');
-                    if (element) {
-                      element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
-                }}
-                className="border border-gray-200 text-[#1A1A1A] px-8 py-3 rounded-xl font-medium hover:bg-gray-50 transition-all duration-180"
-              >
-                Find a Store
-              </button>
+          <div className="bg-white border border-gray-200 rounded-2xl p-12 text-center">
+            <div className="max-w-2xl mx-auto">
+              <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Mail className="w-8 h-8 text-emerald-600" />
+              </div>
+              
+              <h2 className="text-3xl font-bold text-[#1A1A1A] mb-4">
+                {t('hero.contact.title')}
+              </h2>
+              
+              <p className="text-lg text-gray-600 mb-8">
+                {t('hero.description')}
+              </p>
+              
+              <div className="bg-gray-50 rounded-xl p-8 mb-8">
+                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-4">
+                  {t('contact.info.getintouch')}
+                </h3>
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <Mail className="w-5 h-5 text-emerald-600" />
+                  <a 
+                    href="mailto:admin@abadanhaly.com"
+                    className="text-xl font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
+                  >
+                    admin@abadanhaly.com
+                  </a>
+                </div>
+                <p className="text-sm text-gray-600 mb-3 text-center">
+                  {t('contact.info.description')}
+                </p>
+                <div className="bg-white rounded-lg p-4 mt-4">
+                  <p className="text-sm text-gray-700 leading-relaxed">
+                    <strong>{t('contact.instructions')}</strong> {t('contact.instructions.text')}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6 text-left">
+                <div className="bg-gray-50 rounded-lg p-6">
+                  <h4 className="font-semibold text-[#1A1A1A] mb-2">{t('contact.info.title')}</h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <Phone className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm text-gray-600">{t('hero.contact.phone')}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Mail className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm text-gray-600">{t('footer.email.full')}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <MapPin className="w-4 h-4 text-emerald-600" />
+                      <span className="text-sm text-gray-600">{t('footer.address')}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-gray-50 rounded-lg p-6">
+                  <h4 className="font-semibold text-[#1A1A1A] mb-2">{t('contact.responseTime')}</h4>
+                  <ul className="text-sm text-gray-600 space-y-1">
+                    <li>• {t('contact.responseTime.initial')}</li>
+                    <li>• {t('contact.responseTime.detailed')}</li>
+                    <li>• {t('contact.responseTime.product')}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Certificate Lightbox */}
         {selectedCertificate !== null && (
-          <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl max-w-2xl w-full p-8">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h3 className="text-2xl font-bold text-[#1A1A1A] mb-2">
-                    {certifications[selectedCertificate].name}
-                  </h3>
-                  <h4 className="text-lg text-[#0F3B2F] font-medium">
-                    {certifications[selectedCertificate].title}
-                  </h4>
+          <div 
+            className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4"
+            onClick={() => setSelectedCertificate(null)}
+          >
+            <div 
+              className="bg-white rounded-2xl max-w-5xl w-full max-h-[90vh] overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {selectedCertificate === -1 ? (
+                // Award lightbox
+                <div className="p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#1A1A1A] mb-2">
+                        {award.name}
+                      </h3>
+                      <h4 className="text-lg text-[#0F3B2F] font-medium">
+                        {award.title}
+                      </h4>
+                    </div>
+                    <button
+                      onClick={() => setSelectedCertificate(null)}
+                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="mb-6 rounded-xl overflow-hidden bg-gray-50">
+                    <img
+                      src={award.image}
+                      alt={`${award.name} Award`}
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                  
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {award.description}
+                  </p>
+                  
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={() => window.open(award.image, '_blank')}
+                      className="flex items-center gap-2 bg-[#0F3B2F] text-white px-4 py-2 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-colors"
+                    >
+                      <Eye className="w-4 h-4" />
+                      {t('about.lightbox.view')}
+                    </button>
+                    <a
+                      href={award.image}
+                      download
+                      className="flex items-center gap-2 border border-gray-200 text-[#1A1A1A] px-4 py-2 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      {t('about.lightbox.download')}
+                    </a>
+                  </div>
                 </div>
-                <button
-                  onClick={() => setSelectedCertificate(null)}
-                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              
-              <p className="text-gray-600 leading-relaxed mb-6">
-                {certifications[selectedCertificate].description}
-              </p>
-              
-              <div className="flex gap-3">
-                <button className="flex items-center gap-2 bg-[#0F3B2F] text-white px-4 py-2 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-colors">
-                  <Eye className="w-4 h-4" />
-                  View Certificate
-                </button>
-                <button className="flex items-center gap-2 border border-gray-200 text-[#1A1A1A] px-4 py-2 rounded-xl font-medium hover:bg-gray-50 transition-colors">
-                  <Download className="w-4 h-4" />
-                  Download PDF
-                </button>
-              </div>
+              ) : (
+                // Certificate lightbox
+                <div className="p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#1A1A1A] mb-2">
+                        {certifications[selectedCertificate].name}
+                      </h3>
+                      <h4 className="text-lg text-[#0F3B2F] font-medium">
+                        {certifications[selectedCertificate].title}
+                      </h4>
+                    </div>
+                    <button
+                      onClick={() => setSelectedCertificate(null)}
+                      className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <div className="mb-6 rounded-xl overflow-hidden bg-gray-50">
+                    <img
+                      src={certifications[selectedCertificate].image}
+                      alt={`${certifications[selectedCertificate].name} Certificate`}
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                  
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {certifications[selectedCertificate].description}
+                  </p>
+                  
+                  <div className="flex gap-3">
+                    <button 
+                      onClick={() => window.open(certifications[selectedCertificate].image, '_blank')}
+                      className="flex items-center gap-2 bg-[#0F3B2F] text-white px-4 py-2 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-colors"
+                    >
+                      <Eye className="w-4 h-4" />
+                      {t('about.lightbox.view')}
+                    </button>
+                    <a
+                      href={certifications[selectedCertificate].image}
+                      download
+                      className="flex items-center gap-2 border border-gray-200 text-[#1A1A1A] px-4 py-2 rounded-xl font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                      {t('about.lightbox.download')}
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

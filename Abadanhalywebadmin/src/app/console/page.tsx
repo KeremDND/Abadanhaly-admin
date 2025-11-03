@@ -13,12 +13,15 @@ async function verify(formData: FormData) {
   const c = await cookies();
   const raw = c.get(KEY)?.value;
   const attempts = raw ? Number(raw) : 0;
-  if (attempts >= 5) return { ok:false, msg:'Too many attempts. Try later.' };
+  if (attempts >= 5) {
+    // Handle rate limit - could redirect to error page
+    return;
+  }
 
   const ok = pass === process.env.ADMIN_PASSWORD && key === process.env.ADMIN_KEYWORD;
   if (!ok) {
     c.set(KEY, String(attempts + 1), { httpOnly:true, sameSite:'lax', path:'/', maxAge: 15*60 });
-    return { ok:false, msg:'Invalid credentials.' };
+    return;
   }
 
   // success

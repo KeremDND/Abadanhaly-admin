@@ -1,0 +1,30 @@
+⚠️ REAL-TIME UPDATES NOT AVAILABLE YET
+
+Current Situation:
+- HTTP server running at http://localhost:8000
+- Serving OLD built version from dist/ folder
+- Your SOURCE CHANGES are in src/components/ but NOT built yet
+
+Why No Real-Time Updates?
+- The static HTTP server (Python) only serves pre-built files
+- Source files need to be compiled/built first
+- Real-time development server requires Node.js
+
+SOLUTION: Install Node.js and use dev server
+
+1. Install Node.js:
+   - Visit: https://nodejs.org/ (download LTS)
+   - OR: brew install node
+
+2. Setup:
+   ./scripts/setup-all-dependencies.sh
+
+3. Start dev server (real-time updates!):
+   pnpm dev
+   → Opens at http://localhost:5173 with hot reload
+
+Alternative: Rebuild manually
+- After Node.js installed: pnpm build
+- Then refresh http://localhost:8000
+
+See REALTIME_UPDATES.md for complete guide

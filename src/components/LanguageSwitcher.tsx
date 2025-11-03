@@ -6,8 +6,7 @@ import { SUPPORTED_LOCALES, type SupportedLocale, setLanguageCookie } from '../i
 const LANGUAGE_CODES: Record<SupportedLocale, string> = {
   tk: 'TKM',
   ru: 'RU',
-  en: 'EN',
-  de: 'DEU'
+  en: 'EN'
 };
 
 interface LanguageSwitcherProps {
@@ -46,7 +45,7 @@ export default function LanguageSwitcher({ className = '' }: LanguageSwitcherPro
     
     // Update URL with new locale prefix
     const currentPath = window.location.pathname;
-    const pathWithoutLocale = currentPath.replace(/^\/(tk|ru|en|de)/, '') || '/';
+    const pathWithoutLocale = currentPath.replace(/^\/(tk|ru|en)/, '') || '/';
     const newPath = `/${lang}${pathWithoutLocale}`;
     
     // Update URL without page reload

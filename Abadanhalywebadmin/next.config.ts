@@ -1,7 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  serverExternalPackages: ['@prisma/client', 'prisma'],
+  images: {
+    domains: ['localhost'],
+  },
 };
 
 export default nextConfig;

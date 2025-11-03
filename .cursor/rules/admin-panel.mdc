@@ -1,0 +1,311 @@
+---
+description: Build a Private Admin Page that Updates the Whole Website (Abadan Haly)
+globs: app/admin/**,app/api/**,prisma/**,scripts/**,content/i18n/**
+---
+
+# Private Admin Panel for Abadan Haly Website
+
+## Overview
+Build a comprehensive admin panel at `/admin` that allows real-time editing of the entire website content, including translations and product management, with immediate live updates.
+
+## Tech Stack
+- **Framework**: Next.js 14+ with App Router
+- **Language**: TypeScript
+- **Styling**: TailwindCSS
+- **Database**: Prisma ORM with SQLite (dev) / PostgreSQL (prod)
+- **Images**: `/public/images/Halylar/**` (color folders: Grey, Dark Grey, Cream, Red, Green)
+- **i18n**: JSON dictionaries in `content/i18n/{tk,ru,en}.json` (NO German)
+
+## 1. Security & Access
+
+### Authentication
+- **Route**: `/admin` and child routes (`/admin/products`, `/admin/translations`)
+- **Login**: Password-only (no signup)
+  - Inputs: Access Key and Password
+  - Compare against `ADMIN_KEY` and `ADMIN_PASSWORD` env vars
+  - Use HTTP-only cookie session (JWT or Iron)
+- **Rate Limiting**: 5 tries/10 min per IP
+- **Session State**: Lock icon in title bar + "Sign out" button
+- **API Protection**: All admin API routes return 401 if not authenticated
+
+### Environment Variables
+```env
+ADMIN_KEY=your-secret-key
+ADMIN_PASSWORD=your-secure-password
+DATABASE_URL="file:./dev.db" # or PostgreSQL URL for prod
+JWT_SECRET=your-jwt-secret
+```
+
+## 2. Data Model (Prisma Schema)
+
+### Core Models
+```prisma
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  sku         String   @unique
+  color       ColorFamily
+  category    String   // "All carpets", "New", "Best Seller", "Recommended"
+  slug        String   @unique
+  imagePath   String   // /images/Halylar/<Color>/<filename>.jpg
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ColorFamily {
+  Grey
+  DarkGrey
+  Cream
+  Red
+  Green
+}
+
+model Translation {
+  id        String   @id @default(cuid())
+  page      String   // "home" | "gallery" | "about" | "collaboration" | "layout"
+  section   String   // "hero" | "milestones" | "services" | "footer"
+  key       String   // unique key within page/section
+  tk        String
+  ru        String
+  en        String
+  updatedAt DateTime @updatedAt
+
+  @@unique([page, section, key])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actor     String   // admin email or "admin"
+  action    String   // CREATE_PRODUCT, UPDATE_TRANSLATION, etc.
+  target    String   // product sku or translation key
+  diff      Json?
+  createdAt DateTime @default(now())
+}
+```
+
+### Migration Command
+```bash
+npx prisma migrate dev -n "admin_panel_init"
+```
+
+## 3. Product Seeding from Images
+
+### Script: `/scripts/seed-from-images.ts`
+- Traverse `/public/images/Halylar/**` folders
+- For each `.jpg` file, infer:
+  - `color` from folder name
+  - `name` and `sku` from filename
+  - `slug` = kebab-case(name + sku)
+  - `category` = "All carpets" (default)
+  - `imagePath` = absolute public path
+- Upsert into Product table
+
+### Package.json Script
+```json
+{
+  "scripts": {
+    "seed:images": "ts-node --transpile-only scripts/seed-from-images.ts"
+  }
+}
+```
+
+## 4. Admin UI Layout
+
+### Structure
+- **Layout**: Left sidebar with tabs: Dashboard, Products, Translations, Audit, Settings
+- **Design**: Minimal, clean, TailwindCSS
+- **Components**: Sticky headers, search, filters, pagination
+- **Responsive**: Mobile-friendly admin interface
+
+### 4a. Translations Editor
+- **Grid Layout**: Grouped by Page → Section (accordion)
+  - Home: hero, milestones, services, stores, certificates, contact, footer
+  - Gallery: header, filters, categories, product-card, modal
+  - About: hero, story, capacity, milestones
+  - Collaboration: hero, partner-benefits, process, contact
+  - Layout: nav, buttons, common labels
+- **Columns**: Key | TK | RU | EN with inline editing
+- **Actions**: Save, Save & Publish
+- **Save**: Writes to DB + regenerates `content/i18n/*.json`
+- **Publish**: Calls `revalidateTag('i18n')` and `revalidatePath('/')`
+- **Missing Keys Tool**: Compares UI-used keys and creates blanks
+
+### 4b. Products Management
+- **Toolbar**: Add Product, Bulk Activate/Deactivate, Filter by Color/Category
+- **Table Columns**: Image (thumb), Name, SKU, Color, Category, Active, Updated
+- **Edit Form**: Slide-over with fields:
+  - name, sku (locked if set), color (select), category, active toggle
+  - Image: current preview + Upload/Replace (jpg/webp, max 10MB)
+- **Image Upload**: 
+  - Save to `/public/images/Halylar/<Color>/`
+  - Generate responsive variants (480/960/1440px) using Sharp
+  - Update `imagePath` accordingly
+- **Add Product**: Drag-drop image, auto-generate sku/slug if missing
+- **Save Actions**: Upsert record, write files, `revalidateTag('products')`
+
+### 4c. Audit Log
+- **Read-only table**: Last 200 changes
+- **Row Details**: Click to show JSON diff
+- **Filtering**: By action, target, date range
+
+### 4d. Settings
+- **Maintenance Mode**: Toggle banner on public pages
+- **Default Language**: Set tk/ru/en
+- **Admin Credentials**: Manage in dev (.env.local) or show instructions for prod
+
+## 5. API Routes (App Router)
+
+### Authentication
+- `POST /api/auth/login` → Set session cookie
+- `POST /api/auth/logout` → Clear session
+
+### Products
+- `GET /api/products` → Filtered, paginated, no cache
+- `POST /api/products` → Create new product
+- `PUT /api/products/:id` → Update product
+- `DELETE /api/products/:id` → Soft delete
+
+### File Upload
+- `POST /api/upload` → Multipart upload to `/public/images/Halylar/<Color>/`
+
+### Translations
+- `GET /api/translations?page=home` → Grouped by section
+- `PUT /api/translations` → Bulk upsert array
+- `POST /api/translations/sync-json` → Regenerate JSON files
+
+### Cache Management
+- `POST /api/revalidate` → Call `revalidatePath` and `revalidateTag`
+
+### API Requirements
+- Validate session on all admin routes
+- Log to AuditLog
+- Return JSON with success/error
+- Proper error handling and validation
+
+## 6. Public Pages Integration
+
+### Translation Helper
+```typescript
+// Helper function for translations
+t(page: string, section: string, key: string, locale: string)
+```
+- Fetches from JSON files (fast)
+- Revalidates via `i18n` tag
+- Fallback to default language
+
+### Product Data
+```typescript
+// Server function for products
+getProducts({ color, category, limit })
+```
+- Uses Prisma + cache tagged `products`
+- Default categories: All carpets + 20+ items per category
+
+## 7. UX & Polish
+
+### German Removal
+- Delete `de.json` files
+- Remove German from language switch
+- Clean up related code
+
+### Components
+- Consistent: AdminTable, Field, Modal, Confirm
+- Keyboard shortcuts: Cmd+S → Save
+- Non-blocking toasts for feedback
+- File validation + graceful errors
+
+### Performance
+- Use `revalidateTag('products')` and `revalidateTag('i18n')`
+- Invalidate Next Image cache on upload (filename hash)
+- Optimize image variants with Sharp
+
+## 8. File Structure
+
+```
+app/
+├── admin/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── products/
+│   │   └── page.tsx
+│   ├── translations/
+│   │   └── page.tsx
+│   ├── audit/
+│   │   └── page.tsx
+│   └── settings/
+│       └── page.tsx
+├── api/
+│   ├── auth/
+│   │   ├── login/route.ts
+│   │   └── logout/route.ts
+│   ├── products/
+│   │   ├── route.ts
+│   │   └── [id]/route.ts
+│   ├── upload/route.ts
+│   ├── translations/
+│   │   ├── route.ts
+│   │   └── sync-json/route.ts
+│   └── revalidate/route.ts
+scripts/
+└── seed-from-images.ts
+content/
+└── i18n/
+    ├── tk.json
+    ├── ru.json
+    └── en.json
+```
+
+## 9. Acceptance Criteria
+
+### Must Have
+- ✅ `/admin` shows login; correct credentials reveal admin interface
+- ✅ Translations editor updates live site instantly
+- ✅ Products pre-filled from existing images
+- ✅ Adding/editing products shows immediately on `/gallery`
+- ✅ No German language anywhere
+- ✅ Audit log records all changes
+- ✅ TypeScript, accessible, minimal code
+
+### Performance
+- ✅ Real-time updates via revalidation
+- ✅ Optimized image handling
+- ✅ Fast translation loading
+- ✅ Responsive admin interface
+
+## 10. Implementation Commands
+
+```bash
+# Database setup
+npx prisma migrate dev -n "admin_panel_init"
+npx prisma generate
+
+# Seed products from images
+npm run seed:images
+
+# Development
+npm run dev
+
+# Production
+npm run build
+npm run start
+```
+
+## 11. Security Considerations
+
+- All admin routes protected with session validation
+- Rate limiting on login attempts
+- File upload validation and sanitization
+- Audit logging for all admin actions
+- Environment variable protection
+- CSRF protection on forms
+
+## 12. Error Handling
+
+- Graceful fallbacks for missing translations
+- Image upload error handling
+- Database connection error recovery
+- User-friendly error messages
+- Logging for debugging
+
+This admin panel provides complete control over the website content with real-time updates, ensuring the Abadan Haly website can be managed efficiently and professionally.

@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
-import { defaultLocale } from "@/i18n/config";
+import { redirect } from 'next/navigation';
+import { hasAdminSession } from '@/lib/auth';
+import ProductsTab from './products-tab';
 
-export default function AdminRootRedirect() {
-  redirect(`/${defaultLocale}/admin`);
+export default async function AdminPage() {
+  const isAuthenticated = await hasAdminSession();
+
+  if (!isAuthenticated) {
+    redirect('/admin-login');
+  }
+
+  return <ProductsTab />;
 }
