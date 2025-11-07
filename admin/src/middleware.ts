@@ -1,31 +1,21 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { hasAdminSessionFromRequest } from "./lib/auth";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 
-export async function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
+export async function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  const cookieStore = await cookies();
+  const session = cookieStore.get('admin_session');
 
-  // Allow login page and login API without authentication check
-  if (pathname === '/admin-login' || pathname === '/api/admin/login') {
+  // Allow login page and API routes
+  if (pathname === '/login' || pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
 
-  // Protect /admin routes (except login which is now at /admin-login)
-  if (pathname.startsWith('/admin') && pathname !== '/admin-login') {
-    if (!hasAdminSessionFromRequest(req)) {
-      const loginUrl = new URL('/admin-login', req.url);
-      loginUrl.searchParams.set('callbackUrl', pathname + req.nextUrl.search);
-      return NextResponse.redirect(loginUrl);
-    }
-  }
-
-  // Protect /api/admin routes (except login)
-  if (pathname.startsWith('/api/admin') && pathname !== '/api/admin/login') {
-    if (!hasAdminSessionFromRequest(req)) {
-      return NextResponse.json(
-        { ok: false, message: 'Unauthorized' },
-        { status: 401 }
-      );
+  // Protect admin routes
+  if (pathname.startsWith('/admin')) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/login', request.url));
     }
   }
 
@@ -33,9 +23,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/admin/:path*',
-    '/admin-login',
-    '/api/admin/:path*'
-  ],
+  matcher: ['/admin/:path*'],
 };
+

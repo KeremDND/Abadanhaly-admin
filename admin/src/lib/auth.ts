@@ -1,73 +1,48 @@
 import { cookies } from 'next/headers';
-import { NextRequest } from 'next/server';
+import { compare, hash } from 'bcryptjs';
+import { prisma } from './prisma';
 
-const COOKIE_NAME = 'ah_admin';
-const COOKIE_VALUE = '1';
-const MAX_AGE = 12 * 60 * 60; // 12 hours
+const SESSION_COOKIE_NAME = 'admin_session';
+const SESSION_SECRET = process.env.SESSION_SECRET || 'change-me-in-production';
 
-/**
- * Simple password-based authentication
- * Validates password against ADMIN_PASSWORD env var
- */
-export function validateAdminPassword(password: string): boolean {
-  const adminPassword = process.env.ADMIN_PASSWORD;
-  if (!adminPassword) {
-    console.error('ADMIN_PASSWORD env variable not set');
-    return false;
-  }
-  return password === adminPassword;
+export async function hashPassword(password: string): Promise<string> {
+  return hash(password, 12);
 }
 
-/**
- * Check if user has admin session cookie
- */
-export async function hasAdminSession(): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
+  return compare(password, hashedPassword);
+}
+
+export async function createSession(adminId: string): Promise<string> {
+  const sessionToken = `${adminId}-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+  
+  // In production, store sessions in database
+  // For now, we'll use a simple cookie-based approach
+  return sessionToken;
+}
+
+export async function getSession(): Promise<string | null> {
   const cookieStore = await cookies();
-  const session = cookieStore.get(COOKIE_NAME);
-  return session?.value === COOKIE_VALUE;
+  const session = cookieStore.get(SESSION_COOKIE_NAME);
+  return session?.value || null;
 }
 
-/**
- * Check if request has admin session (for middleware/API routes)
- */
-export function hasAdminSessionFromRequest(request: NextRequest): boolean {
-  const session = request.cookies.get(COOKIE_NAME);
-  return session?.value === COOKIE_VALUE;
-}
-
-/**
- * Set admin session cookie (httpOnly, SameSite=Lax)
- */
-export async function setAdminSession(): Promise<void> {
+export async function clearSession(): Promise<void> {
   const cookieStore = await cookies();
-  cookieStore.set(COOKIE_NAME, COOKIE_VALUE, {
+  cookieStore.set(SESSION_COOKIE_NAME, '', {
     httpOnly: true,
-    sameSite: 'lax',
-    maxAge: MAX_AGE,
     secure: process.env.NODE_ENV === 'production',
-    path: '/',
+    sameSite: 'lax',
+    maxAge: 0,
   });
 }
 
-/**
- * Clear admin session cookie
- */
-export async function clearAdminSession(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(COOKIE_NAME);
+export async function verifySession(sessionToken: string): Promise<boolean> {
+  // In production, verify against database
+  // For now, simple check if token exists
+  return !!sessionToken;
 }
 
-/**
- * Create cookie header for Response (for API routes)
- */
-export function createAdminCookieHeader(): string {
-  const secure = process.env.NODE_ENV === 'production' ? 'Secure;' : '';
-  return `${COOKIE_NAME}=${COOKIE_VALUE}; HttpOnly; SameSite=Lax; Max-Age=${MAX_AGE}; Path=/; ${secure}`;
-}
-
-/**
- * Create delete cookie header for Response
- */
-export function createDeleteCookieHeader(): string {
-  return `${COOKIE_NAME}=; HttpOnly; SameSite=Lax; Max-Age=0; Path=/;`;
-}

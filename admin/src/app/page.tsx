@@ -1,6 +1,13 @@
-import { redirect } from "next/navigation";
-import { defaultLocale } from "@/i18n/config";
+import { redirect } from 'next/navigation';
+import { getSession } from '@/lib/auth';
 
-export default function RootRedirect() {
-  redirect(`/${defaultLocale}`);
+export default async function HomePage() {
+  const session = await getSession();
+  
+  if (session) {
+    redirect('/admin');
+  } else {
+    redirect('/login');
+  }
 }
+

@@ -1,48 +1,104 @@
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcryptjs";
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+import { readFileSync, existsSync } from 'fs';
+import { join } from 'path';
 
-async function upsertPage(slug: string, template: any, blocks: Array<{ type: any; data: any }>) {
-  const page = await prisma.page.upsert({
-    where: { slug },
-    update: {},
-    create: { slug, status: "PUBLISHED", template, seoTitle: `Abadan Haly — ${slug}` },
-  });
-  let order = 1;
-  for (const b of blocks) {
-    await prisma.block.create({ data: { pageId: page.id, type: b.type, order: order++, data: b.data } });
-  }
-}
+const prisma = new PrismaClient();
 
 async function main() {
-  const password = await bcrypt.hash("AdminPassw0rd!!", 12);
-  await prisma.user.upsert({ where: { email: "admin@abadan.haly" }, update: {}, create: { email: "admin@abadan.haly", name: "Admin", passwordHash: password, role: "ADMIN" } });
+  console.log('Seeding database...');
 
-  await upsertPage("home", "HOME", [
-    { type: "HERO", data: { title: "Abadan Haly, Owadan Haly", subtitle: "24/7 Vandewiele • Neumag PP • ISO", image: "/images/page-hero/hero.jpg", ctaLabel: "Galereýa", ctaHref: "/gallery" } },
-    { type: "SERVICES", data: { items: [{ title: "Mugt ölçeg", desc: "Öýde mugt ölçeg hyzmaty" }, { title: "Mugt eltip bermek", desc: "Aşgabatda çalt eltip bermek" }, { title: "Özleşdirme", desc: "Ölçeg we nagyş boýunça ýörite sargyt" }] } },
-    { type: "MILESTONES", data: { items: [{ k: "Designs", v: "400+" }, { k: "Years", v: "8+" }, { k: "3M m²", v: "2020" }, { k: "ISO", v: "9001/14001/45001" }] } },
-  ]);
+  // Create default admin
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
+  const hashedPassword = await bcrypt.hash(adminPassword, 12);
 
-  await upsertPage("about", "ABOUT", [
-    { type: "PARAGRAPH", data: { title: "Biz barada", body: "2016-dan bäri 8 Vandewiele seti bilen 24/7 önümçilik. Neumag PP sapak. ISO ulgamlar. AR/3D syn." } },
-  ]);
+  const admin = await prisma.admin.upsert({
+    where: { username: 'admin' },
+    update: {},
+    create: {
+      username: 'admin',
+      password: hashedPassword,
+    },
+  });
 
-  await upsertPage("gallery", "GALLERY", [
-    { type: "GALLERY", data: { folder: "/images/Halylar" } },
-  ]);
+  console.log('Created admin:', admin.username);
 
-  await upsertPage("collaboration", "COLLAB", [
-    { type: "PARAGRAPH", data: { title: "B2B / OEM", body: "Eksport, ýörite bellik, logistika we hil resminamalary." } },
-  ]);
+  // Import translations from public/locales
+  const localesDir = join(process.cwd(), '../../public/locales');
+  const locales = ['en', 'tk', 'ru'];
 
-  const cat = await prisma.category.upsert({ where: { slug: "cream" }, update: {}, create: { name: "Cream", slug: "cream", colorTag: "CREAM" } });
-  const p = await prisma.product.upsert({ where: { sku: "GUNES-CREAM-200x300" }, update: {}, create: { sku: "GUNES-CREAM-200x300", name: "Güneş Cream", slug: "gunes-cream", description: "Traditional pattern", categoryId: cat.id, isActive: true } });
-  await prisma.productVariant.upsert({ where: { id: `${p.id}-seed` }, update: {}, create: { id: `${p.id}-seed`, productId: p.id, color: "CREAM", size: "L_200x300", priceCents: 0, stock: 10, currency: "TMT" } });
+  for (const locale of locales) {
+    const filePath = join(localesDir, `${locale}.json`);
+    
+    if (existsSync(filePath)) {
+      const content = readFileSync(filePath, 'utf-8');
+      const translations = JSON.parse(content);
 
-  console.log("Seed complete");
+      // Flatten nested JSON structure
+      const flatten = (obj: any, prefix = '', page = 'home'): Array<{ page: string; section: string; key: string; locale: string; value: string }> => {
+        const result: Array<{ page: string; section: string; key: string; locale: string; value: string }> = [];
+        
+        for (const [key, value] of Object.entries(obj)) {
+          const newKey = prefix ? `${prefix}.${key}` : key;
+          
+          if (typeof value === 'object' && value !== null) {
+            // Determine page from key structure
+            let currentPage = page;
+            if (key === 'nav' || key === 'footer') {
+              currentPage = key;
+            }
+            
+            result.push(...flatten(value, newKey, currentPage));
+          } else {
+            const parts = newKey.split('.');
+            const section = parts.length > 1 ? parts[0] : 'general';
+            const finalKey = parts.slice(1).join('.') || parts[0];
+            
+            result.push({
+              page: currentPage,
+              section,
+              key: finalKey,
+              locale,
+              value: String(value),
+            });
+          }
+        }
+        
+        return result;
+      };
+
+      const flatTranslations = flatten(translations, '', 'home');
+
+      for (const t of flatTranslations) {
+        await prisma.translation.upsert({
+          where: {
+            page_section_key_locale: {
+              page: t.page,
+              section: t.section,
+              key: t.key,
+              locale: t.locale,
+            },
+          },
+          update: {
+            value: t.value,
+          },
+          create: t,
+        });
+      }
+
+      console.log(`Imported ${flatTranslations.length} translations for ${locale}`);
+    }
+  }
+
+  console.log('Seeding completed!');
 }
 
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, SlidersHorizontal, Grid, List } from 'lucide-react';
 import ProductCard from './ProductCard';
 

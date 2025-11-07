@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Globe } from 'lucide-react';
-import { DEFAULT_LOCALE } from '../i18n';
+import { DEFAULT_LOCALE } from '../lib/i18n';
 
 export default function LanguageToast() {
   const { t } = useTranslation();

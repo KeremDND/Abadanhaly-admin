@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { Cuboid as Cube } from 'lucide-react';
 
 interface SpinningCarpetModelProps {

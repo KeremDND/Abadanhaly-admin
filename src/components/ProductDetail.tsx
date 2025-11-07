@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, Heart, Share2, MapPin, Eye, Star, Shield, Truck, RotateCcw } from 'lucide-react';
 import CarpetARViewer from './CarpetARViewer';
 

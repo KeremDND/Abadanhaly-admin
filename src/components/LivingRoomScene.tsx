@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+{ useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { createLivingRoomScene, LivingRoomTextures } from '../lib/three/livingRoom';
 

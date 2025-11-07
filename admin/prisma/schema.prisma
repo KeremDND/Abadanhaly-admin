@@ -10,68 +10,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Enums
-enum ColorFamily {
-  Grey
-  DarkGrey
-  Cream
-  Red
-  Green
+model Admin {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-// Core Models for Admin Panel
 model Product {
-  id          String      @id @default(cuid())
-  sku         String      @unique
+  id          String   @id @default(cuid())
   name        String
-  slug        String      @unique
-  category    String      // e.g., Grey, Dark Grey, Cream, Red, Green
-  tags        String      // JSON array string: ["new","best-seller","recommended"]
-  colors      String      // JSON array string: ["grey","cream","red","green"]
-  imagePath   String      // /images/Halylar/<folder>/<file>.jpg
-  images      String      // JSON array string: additional images
-  active      Boolean     @default(true)
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  sku         String?  @unique
+  category    String?
+  color       String?
+  image       String
+  description String?
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Translation {
   id        String   @id @default(cuid())
-  page      String   // 'home' | 'gallery' | 'about' | 'collaboration' | 'header' | 'footer'
-  section   String   // e.g., 'hero.title', 'milestones.record', 'cta.explore'
-  locale    String   // 'en' | 'tk' | 'ru'
+  page      String
+  section   String
+  key       String
+  locale    String
   value     String
-  updatedAt DateTime @updatedAt
-  createdAt DateTime @default(now())
-  @@unique([page, section, locale], name: "page_section_locale")
-}
-
-model AuditLog {
-  id        String   @id @default(cuid())
-  actor     String
-  action    String   // UPDATE_TRANSLATIONS, CREATE_MISSING_KEYS, IMPORT, EXPORT
-  target    String   // page/section or keys count
-  diff      Json?
-  createdAt DateTime @default(now())
-}
-
-model Store {
-  id        String   @id @default(cuid())
-  name      String
-  type      String?
-  address   String?
-  city      String?
-  district  String?
-  phone     String?
-  email     String?
-  mapsUrl   String?
-  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([page, section, key, locale])
+  @@index([page, section])
+  @@index([locale])
 }
 
-model Setting {
-  id    String @id @default(cuid())
-  key   String @unique
-  value Json
-}
