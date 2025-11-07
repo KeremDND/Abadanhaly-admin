@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import { useState, useRef, useEffect, Suspense } from 'react';
 import { X, RotateCcw, Eye, Smartphone, Camera, RotateCw } from 'lucide-react';
 import { useARLinks } from '../hooks/useARLinks';
 import { LivingRoomScene } from './LivingRoomScene';

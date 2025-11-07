@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Globe, ChevronDown } from 'lucide-react';
-import { SUPPORTED_LOCALES, type SupportedLocale, setLanguageCookie } from '../i18n';
+import { SUPPORTED_LOCALES, type SupportedLocale, setLanguageCookie } from '../lib/i18n';
 
 const LANGUAGE_CODES: Record<SupportedLocale, string> = {
   tk: 'TKM',

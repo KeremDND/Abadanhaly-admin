@@ -1,62 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { getAdminSession } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getAdminSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url);
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
-    const search = searchParams.get('search') || '';
-    const color = searchParams.get('color') || '';
-    const category = searchParams.get('category') || '';
-    const active = searchParams.get('active');
-
-    const where: any = {};
-
-    if (search) {
-      where.OR = [
-        { name: { contains: search, mode: 'insensitive' } },
-        { sku: { contains: search, mode: 'insensitive' } },
-      ];
-    }
-
-    if (color) {
-      where.color = color;
-    }
-
-    if (category) {
-      where.category = category;
-    }
-
-    if (active !== null && active !== undefined) {
-      where.active = active === 'true';
-    }
-
-    const [products, total] = await Promise.all([
-      prisma.product.findMany({
-        where,
-        skip: (page - 1) * limit,
-        take: limit,
-        orderBy: { updatedAt: 'desc' },
-      }),
-      prisma.product.count({ where }),
-    ]);
-
-    return NextResponse.json({
-      products,
-      pagination: {
-        page,
-        limit,
-        total,
-        pages: Math.ceil(total / limit),
-      },
+    const products = await prisma.product.findMany({
+      orderBy: { createdAt: 'desc' },
     });
+
+    return NextResponse.json(products);
   } catch (error) {
     console.error('Error fetching products:', error);
     return NextResponse.json(
@@ -68,47 +25,34 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getAdminSession();
+    const session = await getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const data = await request.json();
-    const { name, sku, color, category, slug, imagePath } = data;
+    const body = await request.json();
+    const { name, sku, category, color, image, description, active } = body;
 
-    if (!name || !sku || !color || !category) {
+    if (!name || !image) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Name and image are required' },
         { status: 400 }
       );
     }
 
-    // Generate slug if not provided
-    const productSlug = slug || name.toLowerCase().replace(/\s+/g, '-');
-
     const product = await prisma.product.create({
       data: {
         name,
-        sku,
-        color,
-        category,
-        slug: productSlug,
-        imagePath: imagePath || '',
-        active: true,
+        sku: sku || null,
+        category: category || null,
+        color: color || null,
+        image,
+        description: description || null,
+        active: active !== undefined ? active : true,
       },
     });
 
-    // Log to audit
-    await prisma.auditLog.create({
-      data: {
-        actor: session.email,
-        action: 'CREATE_PRODUCT',
-        target: product.sku,
-        diff: { created: product },
-      },
-    });
-
-    return NextResponse.json({ product }, { status: 201 });
+    return NextResponse.json(product);
   } catch (error) {
     console.error('Error creating product:', error);
     return NextResponse.json(
@@ -117,3 +61,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+

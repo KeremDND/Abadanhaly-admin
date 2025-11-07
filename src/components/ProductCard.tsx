@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Eye, Heart, ShoppingBag, Star, Cuboid as Cube } from 'lucide-react';
 
 interface Product {

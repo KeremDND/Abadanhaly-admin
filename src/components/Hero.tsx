@@ -253,7 +253,7 @@ export default function Hero({ onNavigate }: HeroProps) {
       {/* Hero Section - Minimal with Semi-transparent Overlay */}
       <section 
         ref={heroRef}
-        className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200"
+        className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 pt-24"
       >
         {/* Background Image */}
         <picture>

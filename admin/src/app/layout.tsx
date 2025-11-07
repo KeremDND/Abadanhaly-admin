@@ -3,15 +3,18 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Abadan Haly Admin",
-  description: "Admin Dashboard",
+  description: "Admin panel for Abadan Haly website",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html lang="tk">
-      <body>
-        {children}
-      </body>
+    <html lang="en">
+      <body>{children}</body>
     </html>
   );
 }
+

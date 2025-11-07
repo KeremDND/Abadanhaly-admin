@@ -1,13 +1,24 @@
 import { redirect } from 'next/navigation';
-import { hasAdminSession } from '@/lib/auth';
-import TranslationsTab from './translations-tab';
+import { getSession } from '@/lib/auth';
+import TranslationsManager from '@/components/TranslationsManager';
 
 export default async function TranslationsPage() {
-  const isAuthenticated = await hasAdminSession();
-
-  if (!isAuthenticated) {
-    redirect('/admin-login');
+  const session = await getSession();
+  
+  if (!session) {
+    redirect('/login');
   }
 
-  return <TranslationsTab />;
+  return (
+    <div className="px-4 py-6 sm:px-0">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-900">Translations Management</h2>
+        <p className="mt-1 text-sm text-gray-600">
+          Manage website translations for all languages
+        </p>
+      </div>
+      <TranslationsManager />
+    </div>
+  );
 }
+

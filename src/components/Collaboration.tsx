@@ -68,50 +68,64 @@ export default function Collaboration() {
     <section className="min-h-screen bg-white py-8 pt-32">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Executive Hero */}
+        {/* Professional Hero Section */}
         <div 
           id="hero"
           data-animate
-          className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-32 transition-all duration-300 ${
-            visibleSections.has('hero') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          className={`relative mb-32 transition-all duration-500 ease-out ${
+            visibleSections.has('hero') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           }`}
         >
-          {/* Left - Text */}
-          <div className="flex flex-col justify-center space-y-6 lg:space-y-8 lg:pr-4">
-            <div className="space-y-6">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#1A1A1A] leading-tight">
-                {t('collaboration.title')}
-              </h1>
+          <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-12 items-center">
+            {/* Left - Text Content */}
+            <div className="flex flex-col justify-center space-y-8 lg:space-y-10 order-2 lg:order-1">
+              {/* Heading with refined typography */}
+              <div className="space-y-6">
+                <h1 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold text-[#1A1A1A] leading-[1.1] tracking-tight">
+                  {t('collaboration.title')}
+                </h1>
+                
+                <p className="text-lg lg:text-xl text-gray-600 leading-relaxed max-w-2xl font-light">
+                  {t('collaboration.subtitle')}
+                </p>
+              </div>
               
-              <p className="text-base lg:text-lg text-gray-600 leading-relaxed max-w-lg">
-                {t('collaboration.subtitle')}
-              </p>
+              {/* CTA Button with enhanced design */}
+              <div className="pt-2">
+                <a
+                  href="mailto:admin@abadanhaly.com"
+                  className="group relative inline-flex items-center justify-center bg-[#0F3B2F] text-white px-10 py-4 rounded-lg font-semibold text-base hover:bg-[#0F3B2F]/95 transition-all duration-300 hover:shadow-xl hover:shadow-[#0F3B2F]/20 hover:-translate-y-0.5"
+                >
+                  <span className="relative z-10">{t('collaboration.cta.partnership')}</span>
+                  <ArrowRight className="w-5 h-5 ml-2 relative z-10 transition-transform duration-300 group-hover:translate-x-1" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0F3B2F] to-[#1a5a4a] rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </a>
+              </div>
             </div>
-            
-            <div className="flex gap-4 pt-2">
-              <a
-                href="mailto:admin@abadanhaly.com"
-                className="bg-[#0F3B2F] text-white px-8 py-3 rounded-xl font-medium hover:bg-[#0F3B2F]/90 transition-all duration-180 hover:scale-105 inline-block"
-              >
-                {t('collaboration.cta.partnership')}
-              </a>
-            </div>
-          </div>
 
-          {/* Right - Media */}
-          <div className="relative lg:pl-4">
-            <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-[4/3] lg:aspect-auto lg:h-[480px]">
-              <img
-                src="/Images/page-images/Abadan Haly collab page.jpg"
-                alt="Abadan Haly building, Turkmenistan"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
-                }}
-              />
-              {/* Subtle overlay gradient for better visual balance */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none"></div>
+            {/* Right - Image Content */}
+            <div className="relative order-1 lg:order-2">
+              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl shadow-gray-900/10 aspect-[4/3] lg:aspect-[3/4] lg:h-[600px]">
+                {/* Image with improved object positioning */}
+                <img
+                  src="/Images/page-images/Abadan Haly collab page.jpg"
+                  alt="Abadan Haly building, Turkmenistan"
+                  className="w-full h-full object-cover object-center"
+                  loading="eager"
+                  onError={(e) => {
+                    console.log('Image failed to load:', e.currentTarget.src);
+                    e.currentTarget.src = '/Images/logo.png';
+                  }}
+                />
+                {/* Refined gradient overlay for depth */}
+                <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-black/10 pointer-events-none"></div>
+                {/* Subtle border glow effect */}
+                <div className="absolute inset-0 rounded-2xl ring-1 ring-black/5 pointer-events-none"></div>
+              </div>
+              
+              {/* Decorative accent element */}
+              <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-[#0F3B2F]/5 rounded-full blur-3xl -z-10"></div>
+              <div className="absolute -top-4 -left-4 w-32 h-32 bg-emerald-100/30 rounded-full blur-3xl -z-10"></div>
             </div>
           </div>
         </div>

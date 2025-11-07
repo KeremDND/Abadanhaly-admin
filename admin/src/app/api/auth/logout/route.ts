@@ -1,17 +1,9 @@
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function POST() {
-  const response = NextResponse.json(
-    { success: true, message: 'Logout successful' },
-    { status: 200 }
-  );
-
-  response.cookies.set('admin-session', '', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 0,
-  });
-
-  return response;
+  const cookieStore = await cookies();
+  cookieStore.delete('admin_session');
+  return NextResponse.json({ success: true });
 }
+
