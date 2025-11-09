@@ -240,7 +240,7 @@ export default function Hero({ onNavigate }: HeroProps) {
 
 
   // Hero image configuration
-  const HERO_IMG = getAssetPath("/Images/abadan-haly-Nusay- Cream- 2048- carpet.jpg";
+  const HERO_IMG = getAssetPath("/Images/abadan-haly-Nusay- Cream- 2048- carpet.jpg");
   
   const heroProduct = {
     name: "Nusay Cream Collection",
