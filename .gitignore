@@ -23,3 +23,7 @@ Thumbs.db
 .vscode
 .idea
 tmp/
+
+# GitHub Pages build output
+docs/*
+!docs/.gitkeep
