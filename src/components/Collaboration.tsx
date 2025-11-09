@@ -10,6 +10,7 @@ import {
   Star,
   Mail
 } from 'lucide-react';
+import { getAssetPath } from '../lib/paths';
 
 export default function Collaboration() {
   const { t } = useTranslation();
@@ -114,7 +115,7 @@ export default function Collaboration() {
                   loading="eager"
                   onError={(e) => {
                     console.log('Image failed to load:', e.currentTarget.src);
-                    e.currentTarget.src = '/Images/logo.png';
+                    e.currentTarget.src = getAssetPath('/Images/logo.png');
                   }}
                 />
                 {/* Refined gradient overlay for depth */}
