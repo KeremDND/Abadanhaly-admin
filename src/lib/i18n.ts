@@ -57,7 +57,7 @@ i18n
     
     // Backend configuration
     backend: {
-      loadPath: '/locales/{{lng}}.json',
+      loadPath: '/Abadanhaly-admin/locales/{{lng}}.json',
     },
     
     // Detection configuration

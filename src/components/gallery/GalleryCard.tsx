@@ -1,4 +1,4 @@
-'use client';
+
 import { useState, useEffect } from 'react';
 import { ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
