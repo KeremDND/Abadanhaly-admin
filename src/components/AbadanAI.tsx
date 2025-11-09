@@ -211,7 +211,7 @@ export default function AbadanAI(){
                          className="w-full h-32 object-cover rounded-lg"
                          onError={(e) => {
                            console.log('Image failed to load:', e.currentTarget.src);
-                           e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                           e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                          }}
                        />
                        

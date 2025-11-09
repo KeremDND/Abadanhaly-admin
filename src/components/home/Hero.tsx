@@ -358,7 +358,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                   <div key={product.id} className="group relative">
                     <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-neutral-50 border border-gray-200 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-200 ease-out">
                       <img
-                        src={product.image}
+                        src={getAssetPath(product.image)}
                         alt={altText}
                         className="w-full h-full object-contain transition-transform duration-300"
                         loading="lazy"

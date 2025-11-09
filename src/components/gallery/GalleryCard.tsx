@@ -4,6 +4,7 @@ import { ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useTranslation } from 'react-i18next';
 import { products } from '../../../data/products';
+import { getAssetPath } from '../../lib/paths';
 
 interface GalleryCardProps {
   name: string;
@@ -23,7 +24,7 @@ export function GalleryCard({ name, image, alt, zoomLabel, filteredProducts }: G
   const allProducts = filteredProducts || products.map(p => ({
     id: p.id,
     name: p.name,
-    image: p.image,
+    image: getAssetPath(p.image),
     alt: language === 'tk' ? p.altTK : language === 'ru' ? p.altRU : p.altEN
   }));
 
@@ -116,14 +117,14 @@ export function GalleryCard({ name, image, alt, zoomLabel, filteredProducts }: G
       >
         <div className="relative aspect-[3/4] overflow-hidden rounded-xl bg-neutral-50 border border-gray-200 flex items-center justify-center group-hover:scale-[1.02] group-hover:shadow-md transition-all duration-200 ease-out">
           <img
-            src={image}
+            src={getAssetPath(image)}
             alt={alt}
             className="w-full h-full object-contain transition-transform duration-300"
             loading="eager"
             decoding="async"
             onError={(e) => {
               console.log('Image failed to load:', e.currentTarget.src);
-              e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+              e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
             }}
           />
         </div>
@@ -175,13 +176,13 @@ export function GalleryCard({ name, image, alt, zoomLabel, filteredProducts }: G
               onTouchStart={handleTouchStart}
             >
               <img
-                src={currentProduct?.image || image}
+                src={currentProduct?.image ? getAssetPath(currentProduct.image) : getAssetPath(image)}
                 alt={currentProduct?.alt || currentProduct?.name || alt}
                 className="object-contain w-auto h-auto max-w-[90vw] max-h-[90vh] rounded-md"
                 loading="eager"
                 onError={(e) => {
                   console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                  e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                 }}
               />
               

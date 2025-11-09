@@ -3,6 +3,7 @@ import { X, ChevronLeft, ChevronRight, Cuboid as Cube, Search, Eye, ArrowDown } 
 import { useTranslation } from 'react-i18next';
 import { useCarpetManifest } from '../hooks/useCarpetManifest';
 import { OptimizedCarpetPicture } from './OptimizedCarpetPicture';
+import { getAssetPath } from '../lib/paths';
 
 // Lazy load components
 const Product3DViewer = lazy(() => import('./Product3DViewer'));
@@ -566,24 +567,24 @@ export default function Gallery() {
                 >
                   {product.optimizedData?.srcset?.jpg?.[0]?.src ? (
                     <img
-                      src={product.optimizedData.srcset.jpg[0].src}
+                      src={getAssetPath(product.optimizedData.srcset.jpg[0].src)}
                       alt={`abadan-haly — ${product.sku}, ${product.dominantColor}, ${product.type}, carpet`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="eager"
                       onError={(e) => {
                         console.log('Image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                        e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                       }}
                     />
                   ) : (
                     <img
-                      src={product.src}
+                      src={getAssetPath(product.src || product.image)}
                       alt={`abadan-haly — ${product.sku}, ${product.dominantColor}, ${product.type}, carpet`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="eager"
                       onError={(e) => {
                         console.log('Image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Cream- 2004- carpet.jpg';
+                        e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Cream- 2004- carpet.jpg');
                       }}
                     />
                   )}

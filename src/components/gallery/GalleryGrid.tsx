@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GalleryCard } from './GalleryCard';
 import { Product } from '../../../data/products';
+import { getAssetPath } from '../../lib/paths';
 
 interface GalleryGridProps {
   products: Product[];
@@ -97,7 +98,7 @@ export function GalleryGrid({ products, selectedCategory, selectedColor, searchT
     return filteredProducts.map(product => ({
       id: product.id,
       name: product.name,
-      image: product.image,
+      image: getAssetPath(product.image),
       alt: getAltText(product)
     }));
   }, [filteredProducts, language]);
@@ -108,7 +109,7 @@ export function GalleryGrid({ products, selectedCategory, selectedColor, searchT
         <GalleryCard
           key={product.id}
           name={product.name}
-          image={product.image}
+          image={getAssetPath(product.image)}
           alt={getAltText(product)}
           zoomLabel={t('gallery.zoom')}
           filteredProducts={filteredProductsForLightbox}

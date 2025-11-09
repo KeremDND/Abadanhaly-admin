@@ -364,7 +364,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                         decoding="async"
                         onError={(e) => {
                           console.log('Image failed to load:', e.currentTarget.src);
-                          e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                          e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                         }}
                       />
                     </div>
@@ -563,7 +563,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                       loading="eager"
                       onError={(e) => {
                         console.log('Certificate image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = '/Images/logo.png';
+                        e.currentTarget.src = getAssetPath('/Images/logo.png');
                       }}
                     />
                   </div>
