@@ -224,7 +224,7 @@ export default function About({ onNavigate }: AboutProps) {
               <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl shadow-gray-900/10 aspect-[4/3] lg:aspect-[3/4] lg:h-[600px]">
                 {/* Image with improved object positioning */}
                 <img
-                  src=getAssetPath("/Images/page-images/Abadan haly building about us.JPG"
+                  src={getAssetPath("/Images/page-images/Abadan haly building about us.JPG")}
                   alt="Abadan Haly building, Turkmenistan"
                   className="w-full h-full object-cover object-center"
                   loading="eager"
