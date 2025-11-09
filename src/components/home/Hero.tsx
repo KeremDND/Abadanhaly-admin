@@ -2,6 +2,7 @@ import { useState, useRef, lazy, Suspense, useMemo } from 'react';
 import { ArrowRight, Cuboid as Cube, MapPin, Mail, Phone, Target, Truck, Ruler, Palette, Home, Headphones as HeadphonesIcon, Factory, Globe, Award, Bot, Users, Clock, Car, Eye, Download, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { products } from '../../../data/products';
+import { getAssetPath } from '../../../lib/paths';
 
 
 // Lazy load components
