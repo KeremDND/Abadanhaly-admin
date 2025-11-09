@@ -24,7 +24,7 @@ git commit -m "Initial Abadan Haly gallery"
 git branch -M main
 
 # Add remote (replace YOUR-GITHUB-USERNAME)
-git remote add origin https://github.com/YOUR-GITHUB-USERNAME/abadanhaly-admin.git
+git remote add origin https://github.com/YOUR-GITHUB-USERNAME/Abadanhaly-admin.git
 
 # Push to GitHub
 git push -u origin main
@@ -41,7 +41,7 @@ git push -u origin main
    - Click **Save**
 4. Wait 1-2 minutes for deployment
 5. Your site will be live at:
-   `https://YOUR-GITHUB-USERNAME.github.io/abadanhaly-admin/`
+   `https://YOUR-GITHUB-USERNAME.github.io/Abadanhaly-admin/`
 
 ## Updating the Site
 
@@ -63,9 +63,9 @@ GitHub Pages will automatically rebuild and deploy (takes 1-2 minutes).
 
 ## Configuration
 
-- **Base Path**: `/abadanhaly-admin/` (must match repository name)
+- **Base Path**: `/Abadanhaly-admin/` (must match repository name)
 - **Build Output**: `docs/` directory
-- **Repository Name**: `abadanhaly-admin`
+- **Repository Name**: `Abadanhaly-admin`
 
 ## Troubleshooting
 
@@ -75,7 +75,7 @@ GitHub Pages will automatically rebuild and deploy (takes 1-2 minutes).
 - Wait a few minutes for deployment to complete
 
 ### Assets not loading?
-- Ensure all image paths use relative paths or start with `/abadanhaly-admin/`
+- Ensure all image paths use relative paths or start with `/Abadanhaly-admin/`
 - Check browser console for 404 errors
 - Verify build output in `docs/` directory
 
