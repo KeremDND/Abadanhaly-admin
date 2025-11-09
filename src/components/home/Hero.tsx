@@ -138,19 +138,19 @@ export default function Hero({ onNavigate }: HeroProps) {
     {
       name: 'ISO 9001',
       title: 'Quality Management',
-      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'),
       alt: 'ISO 9001 Quality Management Certificate'
     },
     {
       name: 'ISO 14001',
       title: 'Environmental Management',
-      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'),
       alt: 'ISO 14001 Environmental Management Certificate'
     },
     {
       name: 'ISO 45001',
       title: 'Occupational Health & Safety',
-      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'),
       alt: 'ISO 45001 Occupational Health Safety Certificate'
     }
   ];
@@ -160,7 +160,7 @@ export default function Hero({ onNavigate }: HeroProps) {
     {
       name: 'The Union of Industrial and Entrepreneurs of Turkmenistan',
       title: 'Industry Recognition',
-      image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG',
+      image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'),
       alt: 'The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition Award'
     }
   ];
@@ -266,7 +266,7 @@ export default function Hero({ onNavigate }: HeroProps) {
             srcSet={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
           />
           <img
-            src={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
+            src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
             alt="Abadan Haly main hero background"
             className="absolute inset-0 h-full w-full object-cover"
             loading="eager"
@@ -275,7 +275,7 @@ export default function Hero({ onNavigate }: HeroProps) {
             onLoad={() => console.log('Background image loaded successfully')}
             onError={(e) => {
               console.log('Image failed to load, trying fallback');
-              e.currentTarget.src = getAssetPath("/Images/Background_Image.jpg";
+              e.currentTarget.src = getAssetPath("/Images/Background_Image.jpg");
             }}
           />
         </picture>

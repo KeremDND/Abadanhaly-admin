@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { getAssetPath } from '../../lib/paths';
 import { 
   Award, 
   Users, 
