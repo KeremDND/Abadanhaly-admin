@@ -230,7 +230,7 @@ export default function About({ onNavigate }: AboutProps) {
                   loading="eager"
                   onError={(e) => {
                     console.log('Image failed to load:', e.currentTarget.src);
-                    e.currentTarget.src = getAssetPath('/Images/logo.png';
+                    e.currentTarget.src = getAssetPath('/Images/logo.png');
                   }}
                 />
                 {/* Refined gradient overlay for depth */}

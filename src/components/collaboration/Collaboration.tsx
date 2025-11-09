@@ -108,7 +108,7 @@ export default function Collaboration() {
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = getAssetPath('/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png');
                 }}
               />
               {/* Subtle overlay gradient for better visual balance */}
