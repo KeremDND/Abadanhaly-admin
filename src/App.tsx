@@ -1,14 +1,12 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import { Header, Footer, LanguageToast } from './components/layout';
 import { AuthProvider } from './contexts/AuthContext';
-import LanguageToast from './components/LanguageToast';
 
 // Lazy load components
-const Hero = lazy(() => import('./components/Hero'));
-const Gallery = lazy(() => import('./components/NewGallery'));
-const Collaboration = lazy(() => import('./components/Collaboration'));
-const About = lazy(() => import('./components/About'));
+const Hero = lazy(() => import('./components/home/Hero'));
+const Gallery = lazy(() => import('./components/gallery/Gallery'));
+const Collaboration = lazy(() => import('./components/collaboration/Collaboration'));
+const About = lazy(() => import('./components/about/About'));
 
 type Page = 'home' | 'gallery' | 'collaboration' | 'about' | 'shop' | 'product' | 'support' | 'certificates';
 
