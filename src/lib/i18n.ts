@@ -58,6 +58,11 @@ i18n
     // Backend configuration
     backend: {
       loadPath: '/Abadanhaly-admin/locales/{{lng}}.json',
+      // Don't fail if translations can't load
+      allowMultiLoading: false,
+      requestOptions: {
+        cache: 'default',
+      },
     },
     
     // Detection configuration
@@ -84,6 +89,8 @@ i18n
     partialBundledLanguages: true,
     returnNull: false,
     returnEmptyString: false,
+    // Load translations asynchronously without blocking
+    initImmediate: false,
   });
 
 // Set initial language cookie if not present (only after DOM is ready)

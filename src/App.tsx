@@ -18,6 +18,7 @@ const LoadingSpinner = () => (
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [isInitialized, setIsInitialized] = useState(false);
 
   const skipToMain = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -33,23 +34,30 @@ function App() {
   // Initialize page from current URL on mount
   useEffect(() => {
     const initializePage = () => {
-      const path = window.location.pathname;
-      // Remove base path and trailing slash
-      let normalizedPath = path.replace(BASE_PATH, '') || '/';
-      if (normalizedPath.endsWith('/') && normalizedPath !== '/') {
-        normalizedPath = normalizedPath.slice(0, -1);
-      }
-      
-      if (normalizedPath === '/' || normalizedPath === '') {
+      try {
+        const path = window.location.pathname;
+        // Remove base path and trailing slash
+        let normalizedPath = path.replace(BASE_PATH, '') || '/';
+        if (normalizedPath.endsWith('/') && normalizedPath !== '/') {
+          normalizedPath = normalizedPath.slice(0, -1);
+        }
+        
+        if (normalizedPath === '/' || normalizedPath === '') {
+          setCurrentPage('home');
+        } else if (normalizedPath === '/gallery') {
+          setCurrentPage('gallery');
+        } else if (normalizedPath === '/collaboration') {
+          setCurrentPage('collaboration');
+        } else if (normalizedPath === '/about') {
+          setCurrentPage('about');
+        } else {
+          setCurrentPage('home'); // Default to home for unknown paths
+        }
+        setIsInitialized(true);
+      } catch (error) {
+        console.error('Failed to initialize page:', error);
         setCurrentPage('home');
-      } else if (normalizedPath === '/gallery') {
-        setCurrentPage('gallery');
-      } else if (normalizedPath === '/collaboration') {
-        setCurrentPage('collaboration');
-      } else if (normalizedPath === '/about') {
-        setCurrentPage('about');
-      } else {
-        setCurrentPage('home'); // Default to home for unknown paths
+        setIsInitialized(true);
       }
     };
     
@@ -121,6 +129,15 @@ function App() {
     }
   };
 
+  // Show loading spinner until initialized
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-emerald-800 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
+
   return (
     <AuthProvider>
       <div className="min-h-screen bg-white">
@@ -131,8 +148,8 @@ function App() {
         <main id="main-content" tabIndex={-1}>
           {renderPage()}
         </main>
-                       <Footer onNavigate={navigate} />
-               <LanguageToast />
+        <Footer onNavigate={navigate} />
+        <LanguageToast />
       </div>
     </AuthProvider>
   );
