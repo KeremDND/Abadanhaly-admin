@@ -27,14 +27,33 @@ function App() {
     }
   };
 
+  // Get base path from vite config (for GitHub Pages)
+  const BASE_PATH = '/Abadanhaly-admin';
+  
+  // Initialize page from current URL
+  useEffect(() => {
+    const path = window.location.pathname;
+    const normalizedPath = path.replace(BASE_PATH, '') || '/';
+    
+    if (normalizedPath === '/' || normalizedPath === '') setCurrentPage('home');
+    else if (normalizedPath === '/gallery') setCurrentPage('gallery');
+    else if (normalizedPath === '/collaboration') setCurrentPage('collaboration');
+    else if (normalizedPath === '/about') setCurrentPage('about');
+    else setCurrentPage('home'); // Default to home for unknown paths
+  }, []);
+
   // Handle browser back/forward
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname;
-      if (path === '/') setCurrentPage('home');
-      else if (path === '/gallery') setCurrentPage('gallery');
-      else if (path === '/collaboration') setCurrentPage('collaboration');
-      else if (path === '/about') setCurrentPage('about');
+      const normalizedPath = path.replace(BASE_PATH, '') || '/';
+      
+      if (normalizedPath === '/' || normalizedPath === '') setCurrentPage('home');
+      else if (normalizedPath === '/gallery') setCurrentPage('gallery');
+      else if (normalizedPath === '/collaboration') setCurrentPage('collaboration');
+      else if (normalizedPath === '/about') setCurrentPage('about');
+      else setCurrentPage('home');
+      
       // Scroll to top when using browser back/forward
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -45,8 +64,9 @@ function App() {
 
   const navigate = (page: Page) => {
     setCurrentPage(page);
-    const path = page === 'home' ? '/' : `/${page}`;
-    window.history.pushState({}, '', path);
+    const relativePath = page === 'home' ? '/' : `/${page}`;
+    const fullPath = `${BASE_PATH}${relativePath}`;
+    window.history.pushState({}, '', fullPath);
     // Scroll to top when navigating to a new page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
