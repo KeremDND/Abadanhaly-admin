@@ -1,5 +1,6 @@
 import { MapPin, Phone, Mail, Instagram, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { getAssetPath } from '../../lib/paths';
 
 interface FooterProps {
   onNavigate: (page: 'home' | 'shop' | 'product' | 'gallery' | 'certificates' | 'about') => void;
@@ -20,7 +21,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
               <img 
-                src="/Images/logo.png"
+                src={getAssetPath("/Images/logo.png")}
                 alt="Abadan Haly Logo" 
                 className="h-10 w-auto"
               />

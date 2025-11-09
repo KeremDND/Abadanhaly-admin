@@ -102,12 +102,12 @@ export default function Collaboration() {
           <div className="relative lg:pl-4">
             <div className="relative rounded-2xl overflow-hidden shadow-lg bg-gray-100 aspect-[4/3] lg:aspect-auto lg:h-[480px]">
               <img
-                src="/Images/page-images/Abadan Haly collab page.jpg"
+                src=getAssetPath("/Images/page-images/Abadan Haly collab page.jpg"
                 alt="Abadan Haly building, Turkmenistan"
                 className="w-full h-full object-cover"
                 onError={(e) => {
                   console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png';
                 }}
               />
               {/* Subtle overlay gradient for better visual balance */}

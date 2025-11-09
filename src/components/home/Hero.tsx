@@ -138,19 +138,19 @@ export default function Hero({ onNavigate }: HeroProps) {
     {
       name: 'ISO 9001',
       title: 'Quality Management',
-      image: '/Images/Certificats and awards/ISO 9001 Quality Management.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg',
       alt: 'ISO 9001 Quality Management Certificate'
     },
     {
       name: 'ISO 14001',
       title: 'Environmental Management',
-      image: '/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg',
       alt: 'ISO 14001 Environmental Management Certificate'
     },
     {
       name: 'ISO 45001',
       title: 'Occupational Health & Safety',
-      image: '/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg',
+      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg',
       alt: 'ISO 45001 Occupational Health Safety Certificate'
     }
   ];
@@ -160,7 +160,7 @@ export default function Hero({ onNavigate }: HeroProps) {
     {
       name: 'The Union of Industrial and Entrepreneurs of Turkmenistan',
       title: 'Industry Recognition',
-      image: '/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG',
+      image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG',
       alt: 'The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition Award'
     }
   ];
@@ -240,7 +240,7 @@ export default function Hero({ onNavigate }: HeroProps) {
 
 
   // Hero image configuration
-  const HERO_IMG = "/Images/abadan-haly-Nusay- Cream- 2048- carpet.jpg";
+  const HERO_IMG = getAssetPath("/Images/abadan-haly-Nusay- Cream- 2048- carpet.jpg";
   
   const heroProduct = {
     name: "Nusay Cream Collection",
@@ -259,14 +259,14 @@ export default function Hero({ onNavigate }: HeroProps) {
         <picture>
           <source
             type="image/avif"
-            srcSet="/Images/page-images/abadan haly main hero.jpg"
+            srcSet={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
           />
           <source
             type="image/webp"
-            srcSet="/Images/page-images/abadan haly main hero.jpg"
+            srcSet={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
           />
           <img
-            src="/Images/page-images/abadan haly main hero.jpg"
+            src={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
             alt="Abadan Haly main hero background"
             className="absolute inset-0 h-full w-full object-cover"
             loading="eager"
@@ -275,7 +275,7 @@ export default function Hero({ onNavigate }: HeroProps) {
             onLoad={() => console.log('Background image loaded successfully')}
             onError={(e) => {
               console.log('Image failed to load, trying fallback');
-              e.currentTarget.src = "/Images/Background_Image.jpg";
+              e.currentTarget.src = getAssetPath("/Images/Background_Image.jpg";
             }}
           />
         </picture>
@@ -364,7 +364,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                         decoding="async"
                         onError={(e) => {
                           console.log('Image failed to load:', e.currentTarget.src);
-                          e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                          e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
                         }}
                       />
                     </div>
@@ -563,7 +563,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                       loading="eager"
                       onError={(e) => {
                         console.log('Certificate image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = '/Images/logo.png';
+                        e.currentTarget.src = getAssetPath('/Images/logo.png';
                       }}
                     />
                   </div>
@@ -591,13 +591,13 @@ export default function Hero({ onNavigate }: HeroProps) {
               <div className="relative mb-4">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
                   <img
-                    src={awards[0]?.image || '/Images/logo.png'}
+                    src={awards[0]?.image || getAssetPath('/Images/logo.png'}
                     alt={awards[0]?.alt || 'Industry Recognition Award'}
                     className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
                     loading="eager"
                     onError={(e) => {
                       console.log('Award image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = '/Images/logo.png';
+                      e.currentTarget.src = getAssetPath('/Images/logo.png';
                     }}
                   />
                 </div>
@@ -792,7 +792,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Certificate image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png';
                 }}
               />
             </div>
@@ -840,7 +840,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Award image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png';
                 }}
               />
             </div>

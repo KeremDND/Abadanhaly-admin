@@ -127,7 +127,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Star className="w-6 h-6" />,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      image: '/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'
     },
     {
       name: t('certs.iso14001').split(' — ')[0],
@@ -136,7 +136,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Leaf className="w-6 h-6" />,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
-      image: '/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'
     },
     {
       name: t('certs.iso45001').split(' — ')[0],
@@ -145,7 +145,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Shield className="w-6 h-6" />,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
-      image: '/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'
     }
   ];
 
@@ -156,7 +156,7 @@ export default function About({ onNavigate }: AboutProps) {
     icon: <Award className="w-6 h-6" />,
     color: 'text-amber-600',
     bgColor: 'bg-amber-50',
-    image: '/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'
+    image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'
   };
 
   const missions = [
@@ -223,13 +223,13 @@ export default function About({ onNavigate }: AboutProps) {
               <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 shadow-2xl shadow-gray-900/10 aspect-[4/3] lg:aspect-[3/4] lg:h-[600px]">
                 {/* Image with improved object positioning */}
                 <img
-                  src="/Images/page-images/Abadan haly building about us.JPG"
+                  src=getAssetPath("/Images/page-images/Abadan haly building about us.JPG"
                   alt="Abadan Haly building, Turkmenistan"
                   className="w-full h-full object-cover object-center"
                   loading="eager"
                   onError={(e) => {
                     console.log('Image failed to load:', e.currentTarget.src);
-                    e.currentTarget.src = '/Images/logo.png';
+                    e.currentTarget.src = getAssetPath('/Images/logo.png';
                   }}
                 />
                 {/* Refined gradient overlay for depth */}
