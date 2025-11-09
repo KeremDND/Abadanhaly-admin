@@ -146,7 +146,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Shield className="w-6 h-6" />,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
-      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 45001 Occupational Health Safety.jpeg'),
     }
   ];
 
@@ -157,7 +157,7 @@ export default function About({ onNavigate }: AboutProps) {
     icon: <Award className="w-6 h-6" />,
     color: 'text-amber-600',
     bgColor: 'bg-amber-50',
-    image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'
+    image: getAssetPath('/Images/Certificats and awards/The Union of Industrial and Entrepreneurs of Turkmenistan Industry Recognition.JPG'),
   };
 
   const missions = [

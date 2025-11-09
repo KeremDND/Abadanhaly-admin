@@ -364,7 +364,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                         decoding="async"
                         onError={(e) => {
                           console.log('Image failed to load:', e.currentTarget.src);
-                          e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                          e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                         }}
                       />
                     </div>
@@ -563,7 +563,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                       loading="eager"
                       onError={(e) => {
                         console.log('Certificate image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = getAssetPath('/Images/logo.png';
+                        e.currentTarget.src = getAssetPath('/Images/logo.png');
                       }}
                     />
                   </div>
@@ -591,7 +591,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               <div className="relative mb-4">
                 <div className="aspect-[4/3] rounded-xl overflow-hidden bg-gray-50 flex items-center justify-center">
                   <img
-                    src={awards[0]?.image || getAssetPath('/Images/logo.png'}
+                    src={awards[0]?.image || getAssetPath('/Images/logo.png')}
                     alt={awards[0]?.alt || 'Industry Recognition Award'}
                     className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
                     loading="eager"
