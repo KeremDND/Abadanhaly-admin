@@ -761,22 +761,22 @@ export default function Gallery() {
               <div className="absolute inset-0 flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
                 {displayedProducts[selectedImage].optimizedData?.srcset?.jpg?.[0]?.src ? (
                   <img
-                    src={displayedProducts[selectedImage].optimizedData.srcset.jpg[0].src}
+                    src={getAssetPath(displayedProducts[selectedImage].optimizedData.srcset.jpg[0].src)}
                     alt={`abadan-haly — ${displayedProducts[selectedImage].sku}, ${displayedProducts[selectedImage].dominantColor}, ${displayedProducts[selectedImage].type}, carpet`}
                     className="max-w-[95vw] max-h-[calc(100vh-180px)] object-contain transition-all duration-500 ease-out shadow-2xl rounded-lg"
                     onError={(e) => {
                       console.log('Image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                      e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                     }}
                   />
                 ) : (
                   <img
-                    src={displayedProducts[selectedImage].src}
+                    src={getAssetPath(displayedProducts[selectedImage].src || displayedProducts[selectedImage].image)}
                     alt={`abadan-haly — ${displayedProducts[selectedImage].sku}, ${displayedProducts[selectedImage].dominantColor}, ${displayedProducts[selectedImage].type}, carpet`}
                     className="max-w-[95vw] max-h-[calc(100vh-180px)] object-contain transition-all duration-500 ease-out shadow-2xl rounded-lg"
                     onError={(e) => {
                       console.log('Image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                      e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
                     }}
                   />
                 )}
