@@ -597,7 +597,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                     loading="eager"
                     onError={(e) => {
                       console.log('Award image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = getAssetPath('/Images/logo.png';
+                      e.currentTarget.src = getAssetPath('/Images/logo.png');
                     }}
                   />
                 </div>
