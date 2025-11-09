@@ -1,4 +1,4 @@
-{ useState } from 'react';
+import { useState } from 'react';
 import { Mail, Phone, MapPin, HelpCircle, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

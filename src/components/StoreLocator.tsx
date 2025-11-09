@@ -1,4 +1,4 @@
-{ useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { MapPin, Phone, Clock, Navigation, Star, Award, Users, Car } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
