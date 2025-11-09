@@ -128,7 +128,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Star className="w-6 h-6" />,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
-      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 9001 Quality Management.jpeg'),
     },
     {
       name: t('certs.iso14001').split(' — ')[0],
@@ -137,7 +137,7 @@ export default function About({ onNavigate }: AboutProps) {
       icon: <Leaf className="w-6 h-6" />,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
-      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'
+      image: getAssetPath('/Images/Certificats and awards/ISO 14001 Environmental Management.jpeg'),
     },
     {
       name: t('certs.iso45001').split(' — ')[0],
