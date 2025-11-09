@@ -28,7 +28,7 @@ export function ColorFilters({ selectedColor, onColorChange }: ColorFiltersProps
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-center gap-3">
+    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
       {/* All Colors Button - Color Circle Only */}
       <button
         onClick={() => onColorChange(null)}

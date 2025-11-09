@@ -355,6 +355,10 @@ export default function About({ onNavigate }: AboutProps) {
                     src={cert.image}
                     alt={`${cert.name} Certificate`}
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      console.log('Certificate image failed to load:', e.currentTarget.src);
+                      e.currentTarget.src = getAssetPath('/Images/logo.png');
+                    }}
                   />
                 </div>
                 <div className={`w-12 h-12 ${cert.bgColor} rounded-xl flex items-center justify-center ${cert.color} mb-4 group-hover:scale-110 transition-transform duration-180`}>
@@ -378,6 +382,10 @@ export default function About({ onNavigate }: AboutProps) {
                   src={award.image}
                   alt={`${award.name} Award`}
                   className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    console.log('Award image failed to load:', e.currentTarget.src);
+                    e.currentTarget.src = getAssetPath('/Images/logo.png');
+                  }}
                 />
               </div>
               <div className={`w-12 h-12 ${award.bgColor} rounded-xl flex items-center justify-center ${award.color} mb-4 group-hover:scale-110 transition-transform duration-180`}>

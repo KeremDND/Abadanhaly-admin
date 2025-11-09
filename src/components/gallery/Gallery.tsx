@@ -27,15 +27,15 @@ export default function Gallery() {
 
         {/* Sticky Filters Bar */}
         <div className="sticky top-20 z-40 mb-12 pt-8 -mx-4 sm:-mx-6 px-4 sm:px-6 transition-all duration-300">
-          <div className="liquid-glass rounded-2xl p-5 backdrop-blur-md">
-            <div className="flex flex-col lg:flex-row gap-4 items-center justify-center">
-              {/* Search Bar and Category Buttons - Centered */}
-              <div className="flex flex-1 max-w-2xl gap-3 w-full items-center">
+          <div className="liquid-glass rounded-2xl p-4 sm:p-5 backdrop-blur-md">
+            <div className="flex flex-col gap-4 items-stretch sm:items-center">
+              {/* Search Bar and Category Buttons - Stack on mobile, row on desktop */}
+              <div className="flex flex-col sm:flex-row flex-1 max-w-2xl gap-3 w-full items-stretch sm:items-center">
                 <GallerySearch 
                   searchTerm={searchTerm}
                   onSearchChange={setSearchTerm}
                 />
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 flex justify-center sm:justify-start">
                   <GalleryTabs 
                     selectedCategory={selectedCategory}
                     onCategoryChange={setSelectedCategory}
@@ -43,8 +43,8 @@ export default function Gallery() {
                 </div>
               </div>
               
-              {/* Color Filters - Centered */}
-              <div className="w-full lg:w-auto flex justify-center">
+              {/* Color Filters - Centered, wrap on mobile */}
+              <div className="w-full flex justify-center">
                 <ColorFilters 
                   selectedColor={selectedColor}
                   onColorChange={setSelectedColor}
