@@ -792,7 +792,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Certificate image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = getAssetPath('/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png');
                 }}
               />
             </div>
@@ -840,7 +840,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Award image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = getAssetPath('/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png');
                 }}
               />
             </div>
