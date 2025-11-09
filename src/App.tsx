@@ -30,16 +30,30 @@ function App() {
   // Get base path from vite config (for GitHub Pages)
   const BASE_PATH = '/Abadanhaly-admin';
   
-  // Initialize page from current URL
+  // Initialize page from current URL on mount
   useEffect(() => {
-    const path = window.location.pathname;
-    const normalizedPath = path.replace(BASE_PATH, '') || '/';
+    const initializePage = () => {
+      const path = window.location.pathname;
+      // Remove base path and trailing slash
+      let normalizedPath = path.replace(BASE_PATH, '') || '/';
+      if (normalizedPath.endsWith('/') && normalizedPath !== '/') {
+        normalizedPath = normalizedPath.slice(0, -1);
+      }
+      
+      if (normalizedPath === '/' || normalizedPath === '') {
+        setCurrentPage('home');
+      } else if (normalizedPath === '/gallery') {
+        setCurrentPage('gallery');
+      } else if (normalizedPath === '/collaboration') {
+        setCurrentPage('collaboration');
+      } else if (normalizedPath === '/about') {
+        setCurrentPage('about');
+      } else {
+        setCurrentPage('home'); // Default to home for unknown paths
+      }
+    };
     
-    if (normalizedPath === '/' || normalizedPath === '') setCurrentPage('home');
-    else if (normalizedPath === '/gallery') setCurrentPage('gallery');
-    else if (normalizedPath === '/collaboration') setCurrentPage('collaboration');
-    else if (normalizedPath === '/about') setCurrentPage('about');
-    else setCurrentPage('home'); // Default to home for unknown paths
+    initializePage();
   }, []);
 
   // Handle browser back/forward

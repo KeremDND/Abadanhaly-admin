@@ -79,6 +79,11 @@ i18n
     
     // Debug mode (disable in production)
     debug: false,
+    
+    // Don't fail if translations can't load
+    partialBundledLanguages: true,
+    returnNull: false,
+    returnEmptyString: false,
   });
 
 // Set initial language cookie if not present (only after DOM is ready)
