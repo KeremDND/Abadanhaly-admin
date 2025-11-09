@@ -259,11 +259,11 @@ export default function Hero({ onNavigate }: HeroProps) {
         <picture>
           <source
             type="image/avif"
-            srcSet={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
+            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg"
           />
           <source
             type="image/webp"
-            srcSet={getAssetPath(getAssetPath("/Images/page-images/abadan haly main hero.jpg"
+            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg"
           />
           <img
             src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
