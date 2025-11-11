@@ -1,12 +1,12 @@
 # Git LFS tracking (requires git-lfs installed on clones)
-# Exclude build output directories
+# IMPORTANT: Exclude build output directories FIRST (before wildcard patterns)
 docs/** !filter !diff !merge -text
 dist/** !filter !diff !merge -text
 
 # Track large images in public directory
 public/Images/Halylar/** filter=lfs diff=lfs merge=lfs -text
 public/images/Halylar/** filter=lfs diff=lfs merge=lfs -text
-# Track large media files (but not in build output)
+# Track large media files (but not in build output directories)
 *.jpg filter=lfs diff=lfs merge=lfs -text
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
