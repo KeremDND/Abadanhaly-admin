@@ -260,11 +260,11 @@ export default function Hero({ onNavigate }: HeroProps) {
         <picture>
           <source
             type="image/avif"
-            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
+            srcSet={getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.avif")}
           />
           <source
             type="image/webp"
-            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
+            srcSet={getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.webp")}
           />
           <img
             src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
@@ -793,7 +793,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Certificate image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png');
                 }}
               />
             </div>
@@ -841,7 +841,7 @@ export default function Hero({ onNavigate }: HeroProps) {
                 className="max-w-full h-auto max-h-96 rounded-lg shadow-lg border border-gray-200"
                 onError={(e) => {
                   console.log('Award image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/logo.png';
+                  e.currentTarget.src = getAssetPath('/Images/logo.png');
                 }}
               />
             </div>
