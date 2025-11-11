@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
+import { getAssetPath } from '../lib/paths';
 
 interface HeaderProps {
   currentPage: string;
@@ -34,7 +35,7 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
             className="flex items-center group focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 rounded-lg"
           >
             <img 
-              src="/Images/logo.png" 
+              src={getAssetPath("/Images/logo.png")} 
               alt="Abadan Haly Logo" 
               className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
             />
