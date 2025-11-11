@@ -90,11 +90,6 @@ install_deps() {
 # Install main project dependencies
 install_deps "." "Main Project"
 
-# Install admin panel dependencies
-if [ -d "admin" ]; then
-    install_deps "admin" "Admin Panel"
-fi
-
 # Install Abadanhalywebadmin dependencies
 if [ -d "Abadanhalywebadmin" ]; then
     install_deps "Abadanhalywebadmin" "Abadanhalywebadmin"
@@ -106,7 +101,6 @@ echo -e "${GREEN}✅ All dependencies installed successfully!${NC}"
 echo ""
 echo "📋 Next steps:"
 echo "  1. Run database migrations (if needed):"
-echo "     cd admin && pnpm prisma:migrate"
 echo "     cd Abadanhalywebadmin && pnpm prisma:migrate"
 echo ""
 echo "  2. Build the main project:"
@@ -114,7 +108,6 @@ echo "     pnpm build"
 echo ""
 echo "  3. Start development servers:"
 echo "     pnpm dev                    # Main project"
-echo "     cd admin && pnpm dev        # Admin panel"
 echo "     cd Abadanhalywebadmin && pnpm dev  # Web admin"
 echo ""
 

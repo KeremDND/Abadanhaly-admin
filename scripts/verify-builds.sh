@@ -80,14 +80,6 @@ else
     echo -e "${YELLOW}⚠${NC}  No package.json in root"
 fi
 
-# Verify admin panel
-echo "📦 Admin Panel"
-if [ -d "admin" ] && [ -f "admin/package.json" ]; then
-    check_project "admin" "Admin Panel" "build"
-else
-    echo -e "${YELLOW}⚠${NC}  Admin panel not found"
-fi
-
 # Verify Abadanhalywebadmin
 echo "📦 Abadanhalywebadmin"
 if [ -d "Abadanhalywebadmin" ] && [ -f "Abadanhalywebadmin/package.json" ]; then
@@ -98,14 +90,6 @@ fi
 
 # Check Prisma generation
 echo "🗄️  Prisma"
-if [ -d "admin/prisma" ]; then
-    echo "  → Checking admin Prisma..."
-    cd "$PROJECT_ROOT/admin"
-    if $PM_CMD exec prisma generate 2>/dev/null || npx prisma generate 2>/dev/null || true; then
-        echo -e "  ${GREEN}✓${NC} Admin Prisma: OK"
-    fi
-fi
-
 if [ -d "Abadanhalywebadmin/prisma" ]; then
     echo "  → Checking Abadanhalywebadmin Prisma..."
     cd "$PROJECT_ROOT/Abadanhalywebadmin"
