@@ -25,5 +25,17 @@ Thumbs.db
 tmp/
 
 # GitHub Pages build output
+# Allow built files to be committed for GitHub Pages
 docs/*
 !docs/.gitkeep
+!docs/.nojekyll
+!docs/index.html
+!docs/assets/
+!docs/Images/
+!docs/locales/
+!docs/data/
+!docs/cdn/
+!docs/*.txt
+!docs/*.xml
+!docs/*.JPG
+!docs/*.jpg
