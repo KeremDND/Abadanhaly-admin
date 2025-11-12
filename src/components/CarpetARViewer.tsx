@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, Suspense } from 'react';
 import { X, RotateCcw, Eye, Smartphone, Camera, RotateCw } from 'lucide-react';
 import { useARLinks } from '../hooks/useARLinks';
 import { LivingRoomScene } from './LivingRoomScene';
+import { getAssetPath } from '../lib/paths';
 
 // Import model-viewer types
 declare global {
@@ -253,7 +254,7 @@ export default function CarpetARViewer({
               src={glbUrl}
               ios-src={usdzUrl}
               alt={name}
-              poster={posterUrl || imageUrl}
+              poster={posterUrl ? getAssetPath(posterUrl) : (imageUrl ? getAssetPath(imageUrl) : undefined)}
               camera-controls
               auto-rotate={isAutoRotating}
               ar
@@ -284,7 +285,7 @@ export default function CarpetARViewer({
             <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded-2xl">
               <Suspense fallback={<div className="text-gray-500">Loading 3D scene...</div>}>
                 <LivingRoomScene
-                  carpetImage={imageUrl}
+                  carpetImage={imageUrl ? getAssetPath(imageUrl) : undefined}
                   carpetSize={{ width: scaleX, height: scaleZ }}
                   mode={currentMode}
                   autoRotate={isAutoRotating && !prefersReducedMotion}
@@ -315,9 +316,15 @@ export default function CarpetARViewer({
                 <p className="text-gray-600 mb-4">Showing 2D preview instead</p>
                 {imageUrl && (
                   <img
-                    src={imageUrl}
+                    src={getAssetPath(imageUrl)}
                     alt={name}
                     className="max-w-full max-h-64 object-contain mx-auto rounded-lg shadow-sm"
+                    onError={(e) => {
+                      const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
                   />
                 )}
               </div>

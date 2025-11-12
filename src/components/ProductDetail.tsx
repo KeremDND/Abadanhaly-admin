@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Heart, Share2, MapPin, Eye, Star, Shield, Truck, RotateCcw } from 'lucide-react';
 import CarpetARViewer from './CarpetARViewer';
+import { getAssetPath } from '../lib/paths';
 
 interface ProductDetailProps {
   productId: string | null;
@@ -114,11 +115,14 @@ export default function ProductDetail({ productId, onNavigate }: ProductDetailPr
               {/* Main Image */}
               <div className="relative aspect-square bg-gray-50 rounded-2xl overflow-hidden">
                 <img
-                  src={product.images[selectedImage]}
+                  src={getAssetPath(product.images[selectedImage])}
                   alt={product.name}
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = "https://images.pexels.com/photos/6782567/pexels-photo-6782567.jpeg?auto=compress&cs=tinysrgb&w=800&h=800&fit=crop";
+                    const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                    if (e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
                   }}
                 />
                 
@@ -411,7 +415,7 @@ export default function ProductDetail({ productId, onNavigate }: ProductDetailPr
       {showARViewer && (
         <CarpetARViewer
           name={product.name}
-          imageUrl={product.images[0]}
+          imageUrl={getAssetPath(product.images[0])}
           glbUrl={product.glbUrl}
           usdzUrl={product.usdzUrl}
           posterUrl={product.posterUrl}

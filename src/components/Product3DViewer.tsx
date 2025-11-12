@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { X, RotateCcw, ZoomIn, ZoomOut, Move, Eye, Camera, Settings, Home, Maximize } from 'lucide-react';
 import * as THREE from 'three';
+import { getAssetPath } from '../lib/paths';
 
 interface Product3DViewerProps {
   productImage: string;
@@ -178,8 +179,11 @@ export default function Product3DViewer({
     // Add CORS handling for production
     loader.setCrossOrigin('anonymous');
     
+    // Ensure image URL has the correct base path
+    const fullImageUrl = getAssetPath(imageUrl);
+    
     loader.load(
-      imageUrl,
+      fullImageUrl,
       (texture) => {
         texture.colorSpace = THREE.SRGBColorSpace;
         texture.generateMipmaps = false;

@@ -859,7 +859,7 @@ export default function Gallery() {
           </div>
         }>
           <Product3DViewer
-            productImage={selectedProduct.optimizedData?.srcset.jpg[selectedProduct.optimizedData.srcset.jpg.length - 1]?.src || selectedProduct.src}
+            productImage={getAssetPath(selectedProduct.optimizedData?.srcset.jpg[selectedProduct.optimizedData.srcset.jpg.length - 1]?.src || selectedProduct.src || '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg')}
             productName={selectedProduct.name}
             carpetSize={{ width: 200, height: 300 }}
             isOpen={show3DViewer}

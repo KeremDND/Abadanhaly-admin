@@ -1,4 +1,4 @@
-import React from 'react';
+import { getAssetPath } from '../lib/paths';
 
 type Rendition = { src: string; w: number };
 type Item = {
@@ -7,7 +7,7 @@ type Item = {
 };
 
 const toSrcset = (arr: Rendition[]) =>
-  arr.sort((a,b)=>a.w-b.w).map(r => `${r.src} ${r.w}w`).join(', ');
+  arr.sort((a,b)=>a.w-b.w).map(r => `${getAssetPath(r.src)} ${r.w}w`).join(', ');
 
 export function OptimizedCarpetPicture({
   item,
@@ -22,11 +22,20 @@ export function OptimizedCarpetPicture({
         <source type="image/avif" srcSet={toSrcset(item.srcset.avif)} sizes={sizes} />
         <source type="image/webp" srcSet={toSrcset(item.srcset.webp)} sizes={sizes} />
         <img
-          src={fallback}
+          src={getAssetPath(fallback)}
           alt={item.alt}
           loading="eager"
           decoding="async"
           style={{ width:'100%', height:'100%', objectFit:'cover' }}
+          onError={(e) => {
+            if (import.meta.env.DEV) {
+              console.error('OptimizedCarpetPicture image failed to load:', e.currentTarget.src);
+            }
+            const fallbackImg = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+            if (e.currentTarget.src !== fallbackImg) {
+              e.currentTarget.src = fallbackImg;
+            }
+          }}
         />
       </picture>
     </div>

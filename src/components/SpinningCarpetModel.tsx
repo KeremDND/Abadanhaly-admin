@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { Cuboid as Cube } from 'lucide-react';
+import { getAssetPath } from '../lib/paths';
 
 interface SpinningCarpetModelProps {
   imageUrl: string;
@@ -37,7 +38,7 @@ export default function SpinningCarpetModel({ imageUrl, alt, className = "", onV
           <div className="relative w-full h-[500px] lg:h-[600px] flex items-center justify-center overflow-hidden">
             <img
               ref={imageRef}
-              src={imageUrl.startsWith('public/') ? imageUrl.replace('public/', '/') : imageUrl}
+              src={getAssetPath(imageUrl.startsWith('public/') ? imageUrl.replace('public/', '/') : imageUrl)}
               alt={alt}
               className="w-full h-full object-contain transition-all duration-1000 group-hover:scale-105"
               style={{
@@ -45,7 +46,10 @@ export default function SpinningCarpetModel({ imageUrl, alt, className = "", onV
                 maxHeight: '95%',
               }}
               onError={(e) => {
-                e.currentTarget.src = "public/cdn/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet-1080.jpg?auto=compress&cs=tinysrgb&w=800&h=600&fit=crop";
+                const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                if (e.currentTarget.src !== fallback) {
+                  e.currentTarget.src = fallback;
+                }
               }}
             />
           </div>
