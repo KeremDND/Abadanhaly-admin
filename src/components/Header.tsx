@@ -40,11 +40,22 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
               className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
               loading="eager"
               onError={(e) => {
-                console.error('Logo image failed to load:', e.currentTarget.src);
-                // Try direct path without base path as fallback
+                if (import.meta.env.DEV) {
+                  console.error('Logo image failed to load:', e.currentTarget.src);
+                }
+                // Try alternative paths
                 const currentSrc = e.currentTarget.src;
-                if (!currentSrc.includes('/Images/logo.png')) {
-                  e.currentTarget.src = getAssetPath("/Images/logo.png");
+                const fallback = getAssetPath("/Images/logo.png");
+                if (currentSrc !== fallback) {
+                  e.currentTarget.src = fallback;
+                } else {
+                  // Last resort: try without base path
+                  e.currentTarget.src = "/Images/logo.png";
+                }
+              }}
+              onLoad={() => {
+                if (import.meta.env.DEV) {
+                  console.log('Logo image loaded successfully');
                 }
               }}
             />

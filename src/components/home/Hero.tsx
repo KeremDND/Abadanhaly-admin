@@ -267,8 +267,8 @@ export default function Hero({ onNavigate }: HeroProps) {
             srcSet={`${getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.webp")} 1920w`}
           />
           <img
-            src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
-            alt="Abadan Haly main hero background"
+            src={getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.jpg")}
+            alt="Abadan Haly home page background"
             className="absolute inset-0 h-full w-full object-cover"
             loading="eager"
             decoding="async"
@@ -277,7 +277,7 @@ export default function Hero({ onNavigate }: HeroProps) {
               if (import.meta.env.DEV) {
                 console.error('Background image failed to load, trying fallback');
               }
-              const fallback = getAssetPath("/Images/Background_Image.jpg");
+              const fallback = getAssetPath("/Images/page-images/abadan haly main hero.jpg");
               if (e.currentTarget.src !== fallback) {
                 e.currentTarget.src = fallback;
               }
