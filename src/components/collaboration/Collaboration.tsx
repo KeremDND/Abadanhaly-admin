@@ -106,10 +106,16 @@ export default function Collaboration() {
                 src={getAssetPath("/Images/page-images/Abadan Haly collab page.jpg")}
                 alt="Abadan Haly building, Turkmenistan"
                 className="w-full h-full object-cover"
+                loading="eager"
                 onError={(e) => {
-                  console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = getAssetPath('/Images/logo.png');
+                  console.error('Collaboration hero image failed to load:', e.currentTarget.src);
+                  // Try fallback
+                  const fallback = getAssetPath('/Images/logo.png');
+                  if (e.currentTarget.src !== fallback) {
+                    e.currentTarget.src = fallback;
+                  }
                 }}
+                onLoad={() => console.log('Collaboration hero image loaded successfully')}
               />
               {/* Subtle overlay gradient for better visual balance */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none"></div>

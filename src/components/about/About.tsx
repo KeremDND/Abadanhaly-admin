@@ -229,9 +229,14 @@ export default function About({ onNavigate }: AboutProps) {
                   className="w-full h-full object-cover object-center"
                   loading="eager"
                   onError={(e) => {
-                    console.log('Image failed to load:', e.currentTarget.src);
-                    e.currentTarget.src = getAssetPath('/Images/logo.png');
+                    console.error('About hero image failed to load:', e.currentTarget.src);
+                    // Try fallback
+                    const fallback = getAssetPath('/Images/logo.png');
+                    if (e.currentTarget.src !== fallback) {
+                      e.currentTarget.src = fallback;
+                    }
                   }}
+                  onLoad={() => console.log('About hero image loaded successfully')}
                 />
                 {/* Refined gradient overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-black/10 pointer-events-none"></div>
