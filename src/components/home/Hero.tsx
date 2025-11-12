@@ -260,11 +260,11 @@ export default function Hero({ onNavigate }: HeroProps) {
         <picture>
           <source
             type="image/avif"
-            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
+            srcSet={`${getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.avif")} 1920w`}
           />
           <source
             type="image/webp"
-            srcSet={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
+            srcSet={`${getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.webp")} 1920w`}
           />
           <img
             src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
@@ -273,10 +273,14 @@ export default function Hero({ onNavigate }: HeroProps) {
             loading="eager"
             decoding="async"
             fetchPriority="high"
-            onLoad={() => console.log('Background image loaded successfully')}
             onError={(e) => {
-              console.log('Image failed to load, trying fallback');
-              e.currentTarget.src = getAssetPath("/Images/Background_Image.jpg");
+              if (import.meta.env.DEV) {
+                console.error('Background image failed to load, trying fallback');
+              }
+              const fallback = getAssetPath("/Images/Background_Image.jpg");
+              if (e.currentTarget.src !== fallback) {
+                e.currentTarget.src = fallback;
+              }
             }}
           />
         </picture>
