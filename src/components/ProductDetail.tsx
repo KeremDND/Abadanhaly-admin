@@ -156,9 +156,15 @@ export default function ProductDetail({ productId, onNavigate }: ProductDetailPr
                     }`}
                   >
                     <img
-                      src={image}
+                      src={getAssetPath(image)}
                       alt={`${product.name} view ${index + 1}`}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
+                      }}
                     />
                   </button>
                 ))}
