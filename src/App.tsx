@@ -1,6 +1,7 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Header, Footer, LanguageToast } from './components/layout';
 import { AuthProvider } from './contexts/AuthContext';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy load components
 const Hero = lazy(() => import('./components/home/Hero'));
@@ -139,19 +140,21 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
-        <a href="#main-content" className="skip-link" onClick={skipToMain}>
-          Skip to main content
-        </a>
-        <Header currentPage={currentPage} onNavigate={navigate} />
-        <main id="main-content" tabIndex={-1}>
-          {renderPage()}
-        </main>
-        <Footer onNavigate={navigate} />
-        <LanguageToast />
-      </div>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
+          <a href="#main-content" className="skip-link" onClick={skipToMain}>
+            Skip to main content
+          </a>
+          <Header currentPage={currentPage} onNavigate={navigate} />
+          <main id="main-content" tabIndex={-1}>
+            {renderPage()}
+          </main>
+          <Footer onNavigate={navigate} />
+          <LanguageToast />
+        </div>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

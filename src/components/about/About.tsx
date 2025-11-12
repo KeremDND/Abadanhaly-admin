@@ -236,7 +236,11 @@ export default function About({ onNavigate }: AboutProps) {
                       e.currentTarget.src = fallback;
                     }
                   }}
-                  onLoad={() => console.log('About hero image loaded successfully')}
+                  onLoad={() => {
+                    if (import.meta.env.DEV) {
+                      console.log('About hero image loaded');
+                    }
+                  }}
                 />
                 {/* Refined gradient overlay for depth */}
                 <div className="absolute inset-0 bg-gradient-to-br from-black/0 via-black/0 to-black/10 pointer-events-none"></div>

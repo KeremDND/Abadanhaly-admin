@@ -30,19 +30,12 @@ export default function Gallery() {
 
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  // Debug logging
+  // Debug logging (only in development)
   useEffect(() => {
-    console.log('Gallery component - carpets data:', carpets);
-    console.log('Gallery component - manifestLoading:', manifestLoading);
-    console.log('Gallery component - manifestError:', manifestError);
-    console.log('Gallery component - carpets length:', carpets?.length);
-    
-    // Test data accessibility
-    if (carpets && carpets.length > 0) {
-      console.log('First carpet sample:', carpets[0]);
-      console.log('First carpet image path:', carpets[0].srcset?.jpg?.[0]?.src);
+    if (import.meta.env.DEV && carpets && carpets.length > 0) {
+      console.log('Gallery loaded:', carpets.length, 'carpets');
     }
-  }, [carpets, manifestLoading, manifestError]);
+  }, [carpets]);
 
   // Test data loading manually
   useEffect(() => {
@@ -578,7 +571,11 @@ export default function Gallery() {
                           e.currentTarget.src = fallback;
                         }
                       }}
-                      onLoad={() => console.log('Gallery product image loaded successfully')}
+                      onLoad={() => {
+                        if (import.meta.env.DEV) {
+                          console.log('Gallery product image loaded');
+                        }
+                      }}
                     />
                   ) : (
                     <img
@@ -593,7 +590,11 @@ export default function Gallery() {
                           e.currentTarget.src = fallback;
                         }
                       }}
-                      onLoad={() => console.log('Gallery product image (fallback) loaded successfully')}
+                      onLoad={() => {
+                        if (import.meta.env.DEV) {
+                          console.log('Gallery product image (fallback) loaded');
+                        }
+                      }}
                     />
                   )}
                   
@@ -779,7 +780,11 @@ export default function Gallery() {
                         e.currentTarget.src = fallback;
                       }
                     }}
-                    onLoad={() => console.log('Gallery lightbox image loaded successfully')}
+                    onLoad={() => {
+                      if (import.meta.env.DEV) {
+                        console.log('Gallery lightbox image loaded');
+                      }
+                    }}
                   />
                 ) : (
                   <img
@@ -793,7 +798,11 @@ export default function Gallery() {
                         e.currentTarget.src = fallback;
                       }
                     }}
-                    onLoad={() => console.log('Gallery lightbox image (fallback) loaded successfully')}
+                    onLoad={() => {
+                      if (import.meta.env.DEV) {
+                        console.log('Gallery lightbox image (fallback) loaded');
+                      }
+                    }}
                   />
                 )}
               </div>

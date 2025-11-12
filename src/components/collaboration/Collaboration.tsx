@@ -115,7 +115,11 @@ export default function Collaboration() {
                     e.currentTarget.src = fallback;
                   }
                 }}
-                onLoad={() => console.log('Collaboration hero image loaded successfully')}
+                onLoad={() => {
+                  if (import.meta.env.DEV) {
+                    console.log('Collaboration hero image loaded');
+                  }
+                }}
               />
               {/* Subtle overlay gradient for better visual balance */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent pointer-events-none"></div>

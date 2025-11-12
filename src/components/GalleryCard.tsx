@@ -187,7 +187,11 @@ export function GalleryCard({ name, image, alt, zoomLabel, filteredProducts }: G
                     e.currentTarget.src = fallback;
                   }
                 }}
-                onLoad={() => console.log('GalleryCard image loaded successfully')}
+                onLoad={() => {
+                  if (import.meta.env.DEV) {
+                    console.log('GalleryCard image loaded');
+                  }
+                }}
               />
               
               {/* Product Info */}
