@@ -38,6 +38,15 @@ export default function Header({ currentPage, onNavigate }: HeaderProps) {
               src={getAssetPath("/Images/logo.png")} 
               alt="Abadan Haly Logo" 
               className="h-12 w-auto transition-transform duration-300 group-hover:scale-105"
+              loading="eager"
+              onError={(e) => {
+                console.error('Logo image failed to load:', e.currentTarget.src);
+                // Try direct path without base path as fallback
+                const currentSrc = e.currentTarget.src;
+                if (!currentSrc.includes('/Images/logo.png')) {
+                  e.currentTarget.src = getAssetPath("/Images/logo.png");
+                }
+              }}
             />
           </button>
 
