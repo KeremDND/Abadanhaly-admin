@@ -132,7 +132,7 @@ function App() {
   // Show loading spinner until initialized
   if (!isInitialized) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
         <div className="w-8 h-8 border-2 border-emerald-800 border-t-transparent rounded-full animate-spin"></div>
       </div>
     );
@@ -140,7 +140,7 @@ function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200">
         <a href="#main-content" className="skip-link" onClick={skipToMain}>
           Skip to main content
         </a>

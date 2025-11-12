@@ -1,10 +1,9 @@
-import React from 'react';
-import { MapPin, Phone, Mail, Instagram, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getAssetPath } from '../lib/paths';
 
 interface FooterProps {
-  onNavigate: (page: 'home' | 'shop' | 'product' | 'gallery' | 'certificates' | 'about') => void;
+  onNavigate: (page: 'home' | 'shop' | 'product' | 'gallery' | 'certificates' | 'about' | 'collaboration') => void;
 }
 
 export default function Footer({ onNavigate }: FooterProps) {
