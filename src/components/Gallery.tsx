@@ -572,9 +572,13 @@ export default function Gallery() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="eager"
                       onError={(e) => {
-                        console.log('Image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                        console.error('Gallery product image failed to load:', e.currentTarget.src);
+                        const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
                       }}
+                      onLoad={() => console.log('Gallery product image loaded successfully')}
                     />
                   ) : (
                     <img
@@ -583,9 +587,13 @@ export default function Gallery() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       loading="eager"
                       onError={(e) => {
-                        console.log('Image failed to load:', e.currentTarget.src);
-                        e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Cream- 2004- carpet.jpg');
+                        console.error('Gallery product image (fallback) failed to load:', e.currentTarget.src);
+                        const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                        if (e.currentTarget.src !== fallback) {
+                          e.currentTarget.src = fallback;
+                        }
                       }}
+                      onLoad={() => console.log('Gallery product image (fallback) loaded successfully')}
                     />
                   )}
                   
@@ -765,9 +773,13 @@ export default function Gallery() {
                     alt={`abadan-haly — ${displayedProducts[selectedImage].sku}, ${displayedProducts[selectedImage].dominantColor}, ${displayedProducts[selectedImage].type}, carpet`}
                     className="max-w-[95vw] max-h-[calc(100vh-180px)] object-contain transition-all duration-500 ease-out shadow-2xl rounded-lg"
                     onError={(e) => {
-                      console.log('Image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                      console.error('Gallery lightbox image failed to load:', e.currentTarget.src);
+                      const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
                     }}
+                    onLoad={() => console.log('Gallery lightbox image loaded successfully')}
                   />
                 ) : (
                   <img
@@ -775,9 +787,13 @@ export default function Gallery() {
                     alt={`abadan-haly — ${displayedProducts[selectedImage].sku}, ${displayedProducts[selectedImage].dominantColor}, ${displayedProducts[selectedImage].type}, carpet`}
                     className="max-w-[95vw] max-h-[calc(100vh-180px)] object-contain transition-all duration-500 ease-out shadow-2xl rounded-lg"
                     onError={(e) => {
-                      console.log('Image failed to load:', e.currentTarget.src);
-                      e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                      console.error('Gallery lightbox image (fallback) failed to load:', e.currentTarget.src);
+                      const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
                     }}
+                    onLoad={() => console.log('Gallery lightbox image (fallback) loaded successfully')}
                   />
                 )}
               </div>

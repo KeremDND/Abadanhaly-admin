@@ -4,6 +4,7 @@ import { ZoomIn, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useTranslation } from 'react-i18next';
 import { products } from '../../data/products';
+import { getAssetPath } from '../../lib/paths';
 
 interface GalleryCardProps {
   name: string;
@@ -175,14 +176,18 @@ export function GalleryCard({ name, image, alt, zoomLabel, filteredProducts }: G
               onTouchStart={handleTouchStart}
             >
               <img
-                src={currentProduct?.image || image}
+                src={currentProduct?.image ? getAssetPath(currentProduct.image) : getAssetPath(image)}
                 alt={currentProduct?.alt || currentProduct?.name || alt}
                 className="object-contain w-auto h-auto max-w-[90vw] max-h-[90vh] rounded-md"
                 loading="eager"
                 onError={(e) => {
-                  console.log('Image failed to load:', e.currentTarget.src);
-                  e.currentTarget.src = '/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg';
+                  console.error('GalleryCard image failed to load:', e.currentTarget.src);
+                  const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                  if (e.currentTarget.src !== fallback) {
+                    e.currentTarget.src = fallback;
+                  }
                 }}
+                onLoad={() => console.log('GalleryCard image loaded successfully')}
               />
               
               {/* Product Info */}

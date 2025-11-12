@@ -206,12 +206,15 @@ export default function AbadanAI(){
                    <div key={item.id} className="ai-result-card group">
                      <div className="ai-result-image relative">
                        <img 
-                         src={item.srcset?.jpg?.[0]?.src || `/cdn/Halylar/${item.color}/${item.name.replace(/\s+/g, '-').toLowerCase()}.jpg`} 
+                         src={item.srcset?.jpg?.[0]?.src ? getAssetPath(item.srcset.jpg[0].src) : getAssetPath(`/cdn/Halylar/${item.color}/${item.name.replace(/\s+/g, '-').toLowerCase()}.jpg`)} 
                          alt={item.name}
                          className="w-full h-32 object-cover rounded-lg"
                          onError={(e) => {
-                           console.log('Image failed to load:', e.currentTarget.src);
-                           e.currentTarget.src = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                           console.error('AbadanAI image failed to load:', e.currentTarget.src);
+                           const fallback = getAssetPath('/Images/Halylar/Cream/abadan-haly-Gunes- Cream- 2004- carpet.jpg');
+                           if (e.currentTarget.src !== fallback) {
+                             e.currentTarget.src = fallback;
+                           }
                          }}
                        />
                        
