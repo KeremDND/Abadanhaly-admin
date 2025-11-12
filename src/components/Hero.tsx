@@ -257,33 +257,23 @@ export default function Hero({ onNavigate }: HeroProps) {
         className="relative min-h-screen w-full overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 pt-24"
       >
         {/* Background Image */}
-        <picture>
-          <source
-            type="image/avif"
-            srcSet={`${getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.avif")} 1920w`}
-          />
-          <source
-            type="image/webp"
-            srcSet={`${getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.webp")} 1920w`}
-          />
-          <img
-            src={getAssetPath("/Images/page-images/abadan haly main hero.jpg")}
-            alt="Abadan Haly main hero background"
-            className="absolute inset-0 h-full w-full object-cover"
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            onError={(e) => {
-              if (import.meta.env.DEV) {
-                console.error('Background image failed to load, trying fallback');
-              }
-              const fallback = getAssetPath("/Images/page-images/abadan-haly-home-page-background-1920.jpg");
-              if (e.currentTarget.src !== fallback) {
-                e.currentTarget.src = fallback;
-              }
-            }}
-          />
-        </picture>
+        <img
+          src={getAssetPath("/Images/Background_Image.jpg")}
+          alt="Abadan Haly home page background"
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          onError={(e) => {
+            if (import.meta.env.DEV) {
+              console.error('Background image failed to load, trying fallback');
+            }
+            const fallback = getAssetPath("/Images/page-images/abadan haly main hero.jpg");
+            if (e.currentTarget.src !== fallback) {
+              e.currentTarget.src = fallback;
+            }
+          }}
+        />
 
         {/* Glassmorphism Hero Content */}
         <div className="absolute inset-0 flex items-center justify-center px-4 lg:px-8">
