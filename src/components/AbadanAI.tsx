@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Sparkles, Search, Send, Bot, Mic, Globe, Eye, Box } from 'lucide-react';
+import { getAssetPath } from '../lib/paths';
 
 type Item = {
   id: string;
